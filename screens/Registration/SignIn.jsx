@@ -11,13 +11,49 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
+import DataContext from "../../context/DataContext";
 
 const CreateAccount = ({ navigation }) => {
   const { colors } = useTheme();
+  const {
+    email,
+    password,
+    user,
+    username,
+    phone,
+    signUpError,
+    setEmail,
+    setPassword,
+    submit,
+    setPhone,
+    setUsername,
+    SignUpLoading,
+  } = useContext(DataContext);
+
+  async function redirect() {
+    await user;
+    setTimeout(() => {
+      // 👇 Redirects to about page, note the `replace: true`
+      // navigate(`/profile`, { replace: false });
+      navigation.navigate("Congrats");
+    });
+  }
+
+  user ? redirect() : "";
+
+  const handleEmailChange = (text) => {
+    setEmail(text);
+  };
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+  };
+  const handleNameChange = (text) => {
+    setUsername(text);
+  };
   return (
     <SafeAreaView>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -100,9 +136,10 @@ const CreateAccount = ({ navigation }) => {
                     Name
                   </Text>
                   <TextInput
-                    style={[styles.textInput, { color: colors.background }]}
+                    style={[styles.textInput, { color: "black" }]}
                     placeholderTextColor={colors.placeholder}
                     placeholder="Your name"
+                    onChangeText={handleNameChange}
                   />
                 </View>
 
@@ -123,9 +160,10 @@ const CreateAccount = ({ navigation }) => {
                     Email
                   </Text>
                   <TextInput
-                    style={[styles.textInput, { color: colors.background }]}
+                    style={[styles.textInput, { color: "black" }]}
                     placeholderTextColor={colors.placeholder}
                     placeholder="Your Enail"
+                    onChangeText={handleEmailChange}
                   />
                 </View>
                 <View
@@ -145,14 +183,16 @@ const CreateAccount = ({ navigation }) => {
                     Password
                   </Text>
                   <TextInput
-                    style={[styles.textInput, { color: colors.background }]}
+                    style={[styles.textInput, { color: "black" }]}
                     placeholderTextColor={colors.placeholder}
                     placeholder="Your Password"
+                    onChangeText={handlePasswordChange}
+                    secureTextEntry={true}
                   />
                 </View>
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={() => navigation.navigate("Congrats")}
+                  onPress={() => submit()}
                 >
                   <Text style={{ color: "white", fontSize: 15 }}>Register</Text>
                 </TouchableOpacity>
@@ -169,6 +209,7 @@ const CreateAccount = ({ navigation }) => {
                   <Text style={{ color: "#F33F3F" }}> Sign In</Text>
                 </Text>
               </TouchableOpacity>
+              <Text style={{ color: "red" }}>{signUpError}</Text>
             </ScrollView>
             <View
               style={{
@@ -203,7 +244,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     borderRadius: 10,
-    color: "#959598",
   },
   button: {
     display: "flex",
