@@ -59,6 +59,8 @@ const EleganceMenu = () => {
         navigation.navigate("OrderScreen", {
           itemId: item.id,
           itemImage: item.image,
+          itemName: item.name,
+          itemPrice: item.price,
         })
       }
       style={[styles.item, { backgroundColor }]}
@@ -79,7 +81,7 @@ const EleganceMenu = () => {
         {item.name}
       </Text>
       <Text style={[styles.title, { color: textColor, textAlign: "center" }]}>
-        {item.price}
+        ₦{item.price}
       </Text>
     </TouchableOpacity>
   );
@@ -157,7 +159,7 @@ const EleganceMenu = () => {
           }}
         >
           {allUsers === undefined ? (
-            <ActivityIndicator size="large" color="black" />
+            <ActivityIndicator size="large" color="#F33F3F" />
           ) : (
             <FlatList
               data={DATA}
