@@ -10,14 +10,51 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   Platform,
+  ActivityIndicator,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
+import DataContext from "../../context/DataContext";
 
 const LogIn = ({ navigation }) => {
   const { colors } = useTheme();
+
+  const {
+    email,
+    password,
+    loginError,
+    LoginLoading,
+    allUsers,
+    signIn,
+    signed,
+    setEmail,
+    setPassword,
+    loggedInUser,
+  } = useContext(DataContext);
+
+  const handleEmailChange = (text) => {
+    setEmail(text);
+  };
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+  };
+
+  // Stroing Email value and then redirecting
+  async function redirect() {
+    await signed;
+
+    setTimeout(() => {
+      // 👇 Redirects to Home Screen
+      navigation.replace("Home");
+    });
+  }
+
+  if (signed === true) {
+    redirect();
+  }
+
   return (
     <SafeAreaView>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -100,9 +137,10 @@ const LogIn = ({ navigation }) => {
                     Email
                   </Text>
                   <TextInput
-                    style={[styles.textInput, { color: colors.background }]}
+                    style={[styles.textInput, { color: "black" }]}
                     placeholderTextColor={colors.placeholder}
                     placeholder="Your Enail"
+                    onChangeText={handleEmailChange}
                   />
                 </View>
                 <View
@@ -122,13 +160,15 @@ const LogIn = ({ navigation }) => {
                     Password
                   </Text>
                   <TextInput
-                    style={[styles.textInput, { color: colors.background }]}
+                    style={[styles.textInput, { color: "black" }]}
                     placeholderTextColor={colors.placeholder}
                     placeholder="Your Password"
+                    onChangeText={handlePasswordChange}
+                    secureTextEntry={true}
                   />
                 </View>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate("Home")}
+                  onPress={() => signIn()}
                   style={styles.button}
                 >
                   <Text style={{ color: "white", fontSize: 15 }}>Login</Text>
@@ -146,6 +186,12 @@ const LogIn = ({ navigation }) => {
                   <Text style={{ color: "#F33F3F" }}> Sign Up</Text>
                 </Text>
               </TouchableOpacity>
+              <Text style={{ color: "red", fontSize: 15 }}>{loginError}</Text>
+              {LoginLoading ? (
+                <ActivityIndicator size="large" color="#0000ff" />
+              ) : (
+                ""
+              )}
             </ScrollView>
           </View>
         </KeyboardAvoidingView>

@@ -80,6 +80,23 @@ export const DataProvider = ({ children }) => {
       });
   }, [email, password, phone, userId, username]);
 
+  const uploadFoods = () => {
+    set(reference(database, "CafeteriaMenu/" + userId), {
+      id: userId,
+      name: "JOLLOF RICE & CHICKEN",
+      price: 3000,
+      image: " ",
+    })
+      .then(() => {
+        console.log("saved");
+      })
+      .catch((error) => {
+        console.log(erro);
+      });
+  };
+
+  //   uploadFoods();
+
   //   login Function
   const signIn = useCallback(() => {
     setLoginLoading(true);
@@ -133,27 +150,22 @@ export const DataProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    if (signed === false) {
-      return;
-    } else if (signed === true) {
-      // getting all users
-      const dbRef = reference(database);
-      get(child(dbRef, `users/`))
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            setAllUsers(Object.values(snapshot.val()));
-            console.log(Object.values(snapshot.val()));
-          } else {
-            console.log("No data available");
-          }
-        })
+    const dbRef = reference(database);
+    get(child(dbRef, `EleganceMenu/`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setAllUsers(Object.values(snapshot.val()));
+          console.log(Object.values(snapshot.val()));
+        } else {
+          console.log("No data available");
+        }
+      })
 
-        .catch((error) => {
-          console.log(error);
-          setLoadError(error);
-        });
-    }
-  }, [signed]);
+      .catch((error) => {
+        console.log(error);
+        setLoadError(error);
+      });
+  }, []);
 
   return (
     <DataContext.Provider

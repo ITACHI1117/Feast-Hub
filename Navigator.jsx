@@ -9,6 +9,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import LogIn from "./screens/Registration/LogIn";
 import Congrats from "./screens/Registration/Congrats";
 import Home from "./screens/Home/Home";
+import EleganceMenu from "./screens/Home/EleganceMenu";
+import BottomNav from "./screens/Home/BottomNav";
+import SweeTymeMenu from "./screens/Home/SweeTymeMenu";
+import CafeteriaMenu from "./screens/Home/CafeteriaMenu";
+import OrderScreen from "./screens/Home/OderScreen";
 // import CreateAccount from "./screens/Registration/CreateAccount";
 // import ResetPassword from "./screens/Registration/ResetPassword";
 // import Confirmation from "./screens/Registration/Confirmation";
@@ -107,17 +112,28 @@ const Navigator = () => {
             component={Home}
             options={{ title: null, headerShown: false }}
           />
+          <Stack.Screen
+            name="EleganceMenu"
+            component={EleganceMenu}
+            options={{ title: null, headerShown: false }}
+          />
+          <Stack.Screen
+            name="CafeteriaMenu"
+            component={CafeteriaMenu}
+            options={{ title: null, headerShown: false }}
+          />
+          <Stack.Screen
+            name="SweeTymeMenu"
+            component={SweeTymeMenu}
+            options={{ title: null, headerShown: false }}
+          />
+          <Stack.Screen
+            name="OrderScreen"
+            component={OrderScreen}
+            options={{ title: null, headerShown: false }}
+          />
+
           {/* <Stack.Screen
-            name="NewPassword"
-            component={NewPassword}
-            options={{ title: null, headerShown: false }}
-          />
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{ title: null, headerShown: false }}
-          />
-          <Stack.Screen
             name="Profile"
             component={Profile}
             options={{ title: null, headerShown: false }}

@@ -11,9 +11,16 @@ import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-const BottomNav = ({ navigation }) => {
+const BottomNav = () => {
+  const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+
+  const navigateToPage = (menu) => {
+    navigation.navigate(menu);
+    setModalVisible(false);
+  };
   return (
     <View style={styles.buttomNav}>
       <Modal
@@ -27,9 +34,16 @@ const BottomNav = ({ navigation }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>ELEGANCE</Text>
-            <Text style={styles.modalText}>CAFETERIA</Text>
-            <Text style={styles.modalText}>SWEETYME</Text>
+            <TouchableOpacity onPress={() => navigateToPage("EleganceMenu")}>
+              <Text style={styles.modalText}>ELEGANCE</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigateToPage("CafeteriaMenu")}>
+              <Text style={styles.modalText}>CAFETERIA</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigateToPage("SweeTymeMenu")}>
+              <Text style={styles.modalText}>SWEETYME</Text>
+            </TouchableOpacity>
+
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
@@ -39,7 +53,7 @@ const BottomNav = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Home")}>
         <Entypo name="home" size={24} color="black" />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -116,7 +130,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: 20,
     textAlign: "center",
+    fontSize: 19,
+    fontWeight: 600,
   },
 });
