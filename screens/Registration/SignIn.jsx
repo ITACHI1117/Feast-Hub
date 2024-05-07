@@ -36,11 +36,7 @@ const CreateAccount = ({ navigation }) => {
 
   async function redirect() {
     await user;
-    setTimeout(() => {
-      // 👇 Redirects to about page, note the `replace: true`
-      // navigate(`/profile`, { replace: false });
-      navigation.navigate("Congrats");
-    });
+    navigation.replace("Congrats");
   }
 
   user ? redirect() : "";

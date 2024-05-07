@@ -17,8 +17,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import DataContext from "../../context/DataContext";
+import { useNavigation } from "@react-navigation/native";
 
-const LogIn = ({ navigation }) => {
+const LogIn = () => {
+  const navigation = useNavigation();
+
   const { colors } = useTheme();
 
   const {
@@ -45,15 +48,10 @@ const LogIn = ({ navigation }) => {
   async function redirect() {
     await signed;
 
-    setTimeout(() => {
-      // 👇 Redirects to Home Screen
-      navigation.replace("Home");
-    });
+    navigation.replace("Home");
   }
 
-  if (signed === true) {
-    redirect();
-  }
+  signed ? redirect() : "";
 
   return (
     <SafeAreaView>
@@ -188,7 +186,7 @@ const LogIn = ({ navigation }) => {
               </TouchableOpacity>
               <Text style={{ color: "red", fontSize: 15 }}>{loginError}</Text>
               {LoginLoading ? (
-                <ActivityIndicator size="large" color="#0000ff" />
+                <ActivityIndicator size="large" color="#F33F3F" />
               ) : (
                 ""
               )}

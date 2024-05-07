@@ -46,7 +46,7 @@ const Congrats = ({ navigation }) => {
         </Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("LogIn")}
+          onPress={() => navigation.replace("LogIn")}
         >
           <Text style={{ color: "white", fontSize: 15 }}>Get Started</Text>
         </TouchableOpacity>

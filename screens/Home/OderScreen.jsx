@@ -9,6 +9,7 @@ import {
   StyleSheet,
   StatusBar,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
@@ -75,6 +76,7 @@ const OrderScreen = ({ route }) => {
       .then((snapshot) => {
         if (snapshot.exists()) {
           setAllUsers(Object.values(snapshot.val()));
+          setPrice(allUsers[3]);
           //   console.log(allUsers);
         } else {
           console.log("No data available");
@@ -84,7 +86,7 @@ const OrderScreen = ({ route }) => {
         console.error(error);
         setLoadError(error);
       });
-  }, [itemId]);
+  }, [database]);
 
   const handlePlus = () => {
     if (quantity >= 1) {
@@ -116,76 +118,94 @@ const OrderScreen = ({ route }) => {
   return (
     <ScrollView>
       <SafeAreaView>
-        <View
-          style={{
-            marginTop: 20,
-            padding: 30,
-            width: "90%",
-            backgroundColor: "#EDE9E9",
-            alignSelf: "center",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 10,
-          }}
-        >
-          <Image
-            style={{
-              bottom: 10,
-              right: 8,
-              width: 150,
-              height: 150,
-            }}
-            source={require("../../assets/amala.jpg")}
-          />
-          {/* Display additional details of the item */}
-        </View>
-        <View style={{ marginTop: 20, paddingLeft: 30 }}>
-          <Text style={{ fontSize: 25, fontWeight: 700 }}>{allUsers[2]}</Text>
+        <View>
           <View
             style={{
               marginTop: 20,
-              width: 200,
-              height: 35,
+              padding: 30,
+              width: "90%",
               backgroundColor: "#EDE9E9",
-              display: "flex",
-              flexDirection: "row",
+              alignSelf: "center",
               alignItems: "center",
-              justifyContent: "space-around",
+              justifyContent: "center",
               borderRadius: 10,
             }}
           >
-            <TouchableOpacity onPress={() => handleMinus()}>
-              <AntDesign name="minuscircle" size={24} color="black" />
-            </TouchableOpacity>
+            {allUsers === undefined ? (
+              <ActivityIndicator size="large" color="black" />
+            ) : (
+              <Image
+                style={{
+                  bottom: 10,
+                  right: 8,
+                  width: 150,
+                  height: 150,
+                }}
+                source={{ uri: allUsers[1] }}
+              />
+            )}
 
-            <Text>{quantity}</Text>
-            <TouchableOpacity onPress={() => handlePlus()}>
-              <AntDesign name="pluscircle" size={24} color="black" />
-            </TouchableOpacity>
-            <Text>₦{price}</Text>
+            {/* Display additional details of the item */}
           </View>
-          <View style={{ marginTop: 20, paddingLeft: 0 }}>
-            <Text style={{ fontSize: 25, fontWeight: 700 }}>Soup</Text>
+          <View style={{ marginTop: 20, paddingLeft: 30 }}>
+            {allUsers === undefined ? (
+              <ActivityIndicator size="large" color="black" />
+            ) : (
+              <Text style={{ fontSize: 25, fontWeight: 700 }}>
+                {allUsers[2]}
+              </Text>
+            )}
+
             <View
               style={{
-                marginTop: 10,
-                width: "90%",
-                padding: 20,
+                marginTop: 20,
+                width: 200,
+                height: 35,
+                backgroundColor: "#EDE9E9",
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "start",
-                justifyContent: "space-between",
-                borderWidth: 1,
-                borderBlockColor: "gray",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-around",
                 borderRadius: 10,
               }}
             >
-              <FlatList
-                data={DATA}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id}
-                extraData={selectedId}
-              />
+              <TouchableOpacity onPress={() => handleMinus()}>
+                <AntDesign name="minuscircle" size={24} color="black" />
+              </TouchableOpacity>
+
+              <Text>{quantity}</Text>
+              <TouchableOpacity onPress={() => handlePlus()}>
+                <AntDesign name="pluscircle" size={24} color="black" />
+              </TouchableOpacity>
+              {price === undefined ? (
+                <ActivityIndicator size="large" color="black" />
+              ) : (
+                <Text>₦{price}</Text>
+              )}
+            </View>
+            <View style={{ marginTop: 20, paddingLeft: 0 }}>
+              <Text style={{ fontSize: 25, fontWeight: 700 }}>Soup</Text>
+              <View
+                style={{
+                  marginTop: 10,
+                  width: "90%",
+                  padding: 20,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  justifyContent: "space-between",
+                  borderWidth: 1,
+                  borderBlockColor: "gray",
+                  borderRadius: 10,
+                }}
+              >
+                <FlatList
+                  data={DATA}
+                  renderItem={renderItem}
+                  keyExtractor={(item) => item.id}
+                  extraData={selectedId}
+                />
+              </View>
             </View>
           </View>
         </View>
