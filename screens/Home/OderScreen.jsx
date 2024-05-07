@@ -30,6 +30,7 @@ import {
 import { FlutterwaveInit } from "flutterwave-react-native";
 import WebViewModal from "./WebViewModal";
 import DataContext from "../../context/DataContext";
+import { useNavigation } from "@react-navigation/native";
 
 const DATA = [
   {
@@ -45,11 +46,17 @@ const DATA = [
 ];
 
 const OrderScreen = ({ route }) => {
+  const navigation = useNavigation();
+
   const [ismodalVisible, setIsModalVisible] = useState(false);
   const [paymentLink, setPaymentLink] = useState(null);
   const { itemId, itemImage, itemName, itemPrice } = route.params;
   const [quantity1, setQuantity1] = useState(1);
   const [eggQuantity2, setEggQuantity2] = useState(1);
+  const [meatQuantity2, setMeatQuantity2] = useState(1);
+  const [fishQuantity2, setEFishQuantity2] = useState(1);
+  const [moiMoiQuantity2, setMoiMoiQuantity2] = useState(1);
+  const [plantainQuantity2, setplantainQuantity2] = useState(1);
   const [price, setPrice] = useState(itemPrice);
   const [defaultPrice, setDefaultPrice] = useState(2000);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -57,13 +64,47 @@ const OrderScreen = ({ route }) => {
   const [currentUser, setCurrentUser] = useState();
 
   const { userIdentify, user } = useContext(DataContext);
-  console.log(user);
-
+  console.log(user.uid);
   let eggPrice = 200;
+
+  const Data = [
+    {
+      toppin: "Egg",
+      price: 200,
+      quantity: eggQuantity2,
+      setquantity: setEggQuantity2,
+    },
+    {
+      toppin: "Meat",
+      price: 100,
+      quantity: meatQuantity2,
+      setquantity: setMeatQuantity2,
+    },
+    {
+      toppin: "Fish",
+      price: 300,
+      quantity: fishQuantity2,
+      setquantity: setEFishQuantity2,
+    },
+    {
+      toppin: "Moi Moi",
+      price: 300,
+      quantity: moiMoiQuantity2,
+      setquantity: setMoiMoiQuantity2,
+    },
+    {
+      toppin: "Plantain",
+      price: 100,
+      quantity: plantainQuantity2,
+      setquantity: setplantainQuantity2,
+    },
+  ];
+
+  console.log(userIdentify);
 
   useEffect(() => {
     const dbRef = ref(database);
-    get(child(dbRef, `users/${userIdentify}/`))
+    get(child(dbRef, `users/${user.uid}/`))
       .then((snapshot) => {
         if (snapshot.exists()) {
           setCurrentUser(Object.values(snapshot.val()));
@@ -140,9 +181,25 @@ const OrderScreen = ({ route }) => {
     setPrice((prevTotalPrice) => prevTotalPrice - price);
   };
 
+  //   Cart Details
+  const OrderDetails = {
+    user: currentUser,
+    name: itemName,
+    quantity: quantity1,
+    topins: [
+      eggQuantity2,
+      meatQuantity2,
+      fishQuantity2,
+      moiMoiQuantity2,
+      plantainQuantity2,
+    ],
+    price: price,
+    // Other data
+  };
+
   return (
-    <SafeAreaView style={{ height: "100%" }}>
-      <ScrollView>
+    <SafeAreaView>
+      <ScrollView style={{ height: "100%", paddingBottom: 400 }}>
         <View style={{ height: "100%" }}>
           <View
             style={{
@@ -187,14 +244,14 @@ const OrderScreen = ({ route }) => {
               <TouchableOpacity
                 onPress={() => handleMinus(itemPrice, setQuantity1)}
               >
-                <AntDesign name="minuscircle" size={24} color="black" />
+                <AntDesign name="minuscircle" size={24} color="#F33F3F" />
               </TouchableOpacity>
 
               <Text>{quantity1}</Text>
               <TouchableOpacity
                 onPress={() => handlePlus(itemPrice, setQuantity1)}
               >
-                <AntDesign name="pluscircle" size={24} color="black" />
+                <AntDesign name="pluscircle" size={24} color="#F33F3F" />
               </TouchableOpacity>
               <Text>₦{price}</Text>
             </View>
@@ -204,7 +261,6 @@ const OrderScreen = ({ route }) => {
                 style={{
                   marginTop: 10,
                   width: "90%",
-                  height: "90%",
                   padding: 20,
                   display: "flex",
                   flexDirection: "column",
@@ -213,54 +269,75 @@ const OrderScreen = ({ route }) => {
                   borderWidth: 1,
                   borderBlockColor: "gray",
                   borderRadius: 10,
+                  marginBottom: 20,
                 }}
               >
-                <View
-                  style={{
-                    width: "100%",
-                    alignItems: "center",
-                    justifyContent: "space-around",
-                    display: "flex",
-                    flexDirection: "row",
-                  }}
-                >
-                  <Text>Egg</Text>
-                  <Text>₦200</Text>
-                  <View
-                    style={{
-                      marginTop: 20,
-                      width: 200,
-                      height: 35,
-                      backgroundColor: "#EDE9E9",
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-around",
-                      borderRadius: 10,
-                    }}
-                  >
-                    <TouchableOpacity
-                      onPress={() => handleMinus(eggPrice, setEggQuantity2)}
-                    >
-                      <AntDesign name="minuscircle" size={24} color="black" />
-                    </TouchableOpacity>
+                <ScrollView>
+                  {Data.map(({ toppin, price, quantity, setquantity }) => {
+                    return (
+                      <View
+                        key={toppin}
+                        style={{
+                          width: "100%",
+                          height: 50,
+                          alignItems: "center",
+                          justifyContent: "space-around",
+                          display: "flex",
+                          flexDirection: "row",
+                          marginBottom: 20,
+                        }}
+                      >
+                        <Text style={{ fontSize: 16 }}>{toppin}</Text>
+                        <Text>₦{price}</Text>
+                        <View
+                          style={{
+                            marginTop: 0,
+                            width: 200,
+                            height: 35,
+                            backgroundColor: "#EDE9E9",
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-around",
+                            borderRadius: 10,
+                          }}
+                        >
+                          <TouchableOpacity
+                            onPress={() => handleMinus(eggPrice, setquantity)}
+                          >
+                            <AntDesign
+                              name="minuscircle"
+                              size={24}
+                              color="#F33F3F"
+                            />
+                          </TouchableOpacity>
 
-                    <Text>{eggQuantity2}</Text>
-                    <TouchableOpacity
-                      onPress={() => handlePlus(eggPrice, setEggQuantity2)}
-                    >
-                      <AntDesign name="pluscircle" size={24} color="black" />
-                    </TouchableOpacity>
-                    <Text>₦{price}</Text>
-                  </View>
-                </View>
+                          <Text>{quantity}</Text>
+                          <TouchableOpacity
+                            onPress={() => handlePlus(eggPrice, setquantity)}
+                          >
+                            <AntDesign
+                              name="pluscircle"
+                              size={24}
+                              color="#F33F3F"
+                            />
+                          </TouchableOpacity>
+                          <Text>₦{price}</Text>
+                        </View>
+                      </View>
+                    );
+                  })}
+                </ScrollView>
               </View>
             </View>
           </View>
         </View>
       </ScrollView>
       <TouchableOpacity
-        onPress={() => handlePaymentInitiation()}
+        // onPress={() => handlePaymentInitiation()}
+        onPress={() =>
+          navigation.navigate("AddressScreen", { data: OrderDetails })
+        }
         style={{
           backgroundColor: "#F33F3F",
           width: "90%",
@@ -275,9 +352,7 @@ const OrderScreen = ({ route }) => {
           borderRadius: 10,
         }}
       >
-        <Text style={{ color: "white", fontSize: 18 }}>
-          Add to Cart (N{price})
-        </Text>
+        <Text style={{ color: "white", fontSize: 18 }}>Order (N{price})</Text>
       </TouchableOpacity>
       <WebViewModal
         url={paymentLink}

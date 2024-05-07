@@ -59,9 +59,7 @@ const BottomNav = () => {
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Entypo name="menu" size={24} color="black" />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-        <AntDesign name="shoppingcart" size={24} color="black" />
-      </TouchableOpacity>
+
       <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
         <FontAwesome5 name="user-alt" size={24} color="black" />
       </TouchableOpacity>

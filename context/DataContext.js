@@ -62,7 +62,7 @@ export const DataProvider = ({ children }) => {
         setSignUpLoading(false);
         // saving user info to the real time database
         set(reference(database, "users/" + userId), {
-          id: userId,
+          id: userCredential.user.uid,
           name: username,
           email: email,
           profile_picture: " ",
@@ -70,7 +70,7 @@ export const DataProvider = ({ children }) => {
         }).then(() => {
           // setting userIdentify to userId so i can pass the same user id
           // to other functions that may need it
-          setUserIdentify(userId);
+          setUserIdentify(userCredential.user.uid);
         });
       })
       .catch((error) => {

@@ -15,6 +15,9 @@ import SweeTymeMenu from "./screens/Home/SweeTymeMenu";
 import CafeteriaMenu from "./screens/Home/CafeteriaMenu";
 import OrderScreen from "./screens/Home/OderScreen";
 import PersonalInfo from "./screens/Home/PersonalInfo";
+import AddressScreen from "./screens/Home/AddressScreen";
+import SelectDelivery from "./screens/Home/SelectDelivery";
+
 // import CreateAccount from "./screens/Registration/CreateAccount";
 // import ResetPassword from "./screens/Registration/ResetPassword";
 // import Confirmation from "./screens/Registration/Confirmation";
@@ -138,13 +141,18 @@ const Navigator = () => {
             component={OrderScreen}
             options={{ title: null, headerShown: false }}
           />
-
-          {/* <Stack.Screen
-            name="Profile"
-            component={Profile}
+          <Stack.Screen
+            name="AddressScreen"
+            component={AddressScreen}
             options={{ title: null, headerShown: false }}
           />
+
           <Stack.Screen
+            name="SelectDelivery"
+            component={SelectDelivery}
+            options={{ title: null, headerShown: false }}
+          />
+          {/* <Stack.Screen
             name="EditProfile"
             component={EditProfile}
             options={{ title: null, headerShown: false }}
