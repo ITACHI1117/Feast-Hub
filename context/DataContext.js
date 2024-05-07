@@ -8,6 +8,7 @@ import {
 import { set, update } from "firebase/database";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { child, get } from "firebase/database";
+import foodimage from "../assets/riceandstew.jpg";
 
 const DataContext = createContext({});
 
@@ -91,7 +92,7 @@ export const DataProvider = ({ children }) => {
         console.log("saved");
       })
       .catch((error) => {
-        console.log(erro);
+        console.log(error);
       });
   };
 
@@ -119,13 +120,13 @@ export const DataProvider = ({ children }) => {
 
   //   Upload Image function
   function upload() {
-    if (imageUpload === null) return;
+    if (foodimage === null) return;
     // Upload images to firebase Storage
     const imgRef = ref(
       storage,
-      `images/usersProfileImg/${userIdentify}/${imageUpload.name + userId}`
+      `images/EleganceMenu/0kSp7qnxsg/${foodimage.name + "0kSp7qnxsg"}`
     );
-    uploadBytes(imgRef, imageUpload)
+    uploadBytes(imgRef, foodimage)
       .then((snaphost) => {
         // getting the download url for the uploaded image
         getDownloadURL(snaphost.ref).then((url) => {
@@ -136,36 +137,40 @@ export const DataProvider = ({ children }) => {
         setUploaded(true);
       });
   }
+  //   upload();
 
   if (uploaded === true) {
     console.log(userIdentify);
     // update user Profile image in firebase realtime database
-    update(reference(database, "users/" + userIdentify), {
-      profile_picture: profileImg,
+    update(reference(database, "EleganceMenu/" + "0kSp7qnxsg"), {
+      image: profileImg,
     })
-      .then(console.log("saved"))
+      .then(() => {
+        console.log("saved");
+        setUploaded(false);
+      })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  useEffect(() => {
-    const dbRef = reference(database);
-    get(child(dbRef, `EleganceMenu/`))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          setAllUsers(Object.values(snapshot.val()));
-          console.log(Object.values(snapshot.val()));
-        } else {
-          console.log("No data available");
-        }
-      })
+  //   useEffect(() => {
+  //     const dbRef = reference(database);
+  //     get(child(dbRef, `EleganceMenu/`))
+  //       .then((snapshot) => {
+  //         if (snapshot.exists()) {
+  //           setAllUsers(Object.values(snapshot.val()));
+  //           console.log(Object.values(snapshot.val()));
+  //         } else {
+  //           console.log("No data available");
+  //         }
+  //       })
 
-      .catch((error) => {
-        console.log(error);
-        setLoadError(error);
-      });
-  }, []);
+  //       .catch((error) => {
+  //         console.log(error);
+  //         setLoadError(error);
+  //       });
+  //   }, []);
 
   return (
     <DataContext.Provider

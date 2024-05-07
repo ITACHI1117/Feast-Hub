@@ -1,5 +1,5 @@
 // DetailsScreen.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,17 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { database } from "../../firebaseConfig";
+import {
+  ref,
+  child,
+  get,
+  serverTimestamp,
+  set,
+  push,
+  onDisconnect,
+  onValue,
+} from "firebase/database";
 
 const DATA = [
   {
@@ -53,6 +64,27 @@ const OrderScreen = ({ route }) => {
   const [defaultPrice, setDefaultPrice] = useState(2000);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedId, setSelectedId] = useState();
+
+  // getting data fromm database
+  const [allUsers, setAllUsers] = useState();
+  const [LoadError, setLoadError] = useState();
+
+  useEffect(() => {
+    const dbRef = ref(database);
+    get(child(dbRef, `EleganceMenu/${itemId}`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setAllUsers(Object.values(snapshot.val()));
+          //   console.log(allUsers);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoadError(error);
+      });
+  }, [itemId]);
 
   const handlePlus = () => {
     if (quantity >= 1) {
@@ -108,7 +140,7 @@ const OrderScreen = ({ route }) => {
           {/* Display additional details of the item */}
         </View>
         <View style={{ marginTop: 20, paddingLeft: 30 }}>
-          <Text style={{ fontSize: 25, fontWeight: 700 }}>Amala & Ewedu </Text>
+          <Text style={{ fontSize: 25, fontWeight: 700 }}>{allUsers[2]}</Text>
           <View
             style={{
               marginTop: 20,

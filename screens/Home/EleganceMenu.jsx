@@ -7,6 +7,7 @@ import {
   Image,
   FlatList,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -48,7 +49,7 @@ const EleganceMenu = () => {
         console.error(error);
         setLoadError(error);
       });
-  }, [allUsers]);
+  }, [database]);
 
   const DATA = allUsers;
 
@@ -69,7 +70,10 @@ const EleganceMenu = () => {
           borderRadius: 10,
           objectFit: "cover",
         }}
-        source={item.image}
+        // source={require("../../assets/chicken1.png")}
+        source={{
+          uri: item.image,
+        }}
       />
       <Text style={[styles.title, { color: textColor, textAlign: "center" }]}>
         {item.name}
@@ -152,13 +156,17 @@ const EleganceMenu = () => {
             marginBottom: 100,
           }}
         >
-          <FlatList
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            extraData={selectedId}
-            numColumns={2}
-          />
+          {allUsers === undefined ? (
+            <ActivityIndicator size="large" color="black" />
+          ) : (
+            <FlatList
+              data={DATA}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              extraData={selectedId}
+              numColumns={2}
+            />
+          )}
         </ScrollView>
         <BottomNav />
       </View>
