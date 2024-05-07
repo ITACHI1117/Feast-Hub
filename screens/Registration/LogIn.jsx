@@ -137,7 +137,7 @@ const LogIn = () => {
                   <TextInput
                     style={[styles.textInput, { color: "black" }]}
                     placeholderTextColor={colors.placeholder}
-                    placeholder="Your Enail"
+                    placeholder="Your Email"
                     onChangeText={handleEmailChange}
                   />
                 </View>

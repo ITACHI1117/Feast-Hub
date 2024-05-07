@@ -36,7 +36,7 @@ const CreateAccount = ({ navigation }) => {
 
   async function redirect() {
     await user;
-    navigation.replace("Congrats");
+    navigation.replace("PersonalInfo");
   }
 
   user ? redirect() : "";
@@ -50,6 +50,7 @@ const CreateAccount = ({ navigation }) => {
   const handleNameChange = (text) => {
     setUsername(text);
   };
+
   return (
     <SafeAreaView>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -196,7 +197,7 @@ const CreateAccount = ({ navigation }) => {
 
               <TouchableOpacity
                 style={{ paddingTop: 20 }}
-                onPress={() => navigation.navigate("LogIn")}
+                onPress={() => navigation.navigate("PersonalInfo")}
               >
                 <Text
                   style={{ color: "#959598", fontSize: 15, paddingBottom: 20 }}

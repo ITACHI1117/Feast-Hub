@@ -6,14 +6,16 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import BottomNav from "./BottomNav";
+import DataContext from "../../context/DataContext";
 
 const Home = () => {
+  const { loggedInuser } = useContext(DataContext);
   const { colors } = useTheme();
-
+  //   console.log(loggedInuser.email);
   return (
     <SafeAreaView>
       <View

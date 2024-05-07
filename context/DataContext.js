@@ -36,6 +36,7 @@ export const DataProvider = ({ children }) => {
   const [imageUpload, setImageUpload] = useState(null);
   const [profileImg, setProfileImg] = useState("");
   const [allUsers, setAllUsers] = useState();
+  const [loggedInuser, setLoggedInuser] = useState("");
   // Login error
 
   const [loginError, setLoginError] = useState("");
@@ -106,6 +107,7 @@ export const DataProvider = ({ children }) => {
       .then((userCredential) => {
         // Signed in
         setUser(userCredential.user);
+        setLoggedInuser(userCredential.user);
         setSigned(true);
         setLoginLoading(false);
       })
@@ -191,6 +193,7 @@ export const DataProvider = ({ children }) => {
         SignUpLoading,
         allUsers,
         LoadError,
+        loggedInuser,
         setEmail,
         setPhone,
         setUsername,

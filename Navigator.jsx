@@ -14,6 +14,7 @@ import BottomNav from "./screens/Home/BottomNav";
 import SweeTymeMenu from "./screens/Home/SweeTymeMenu";
 import CafeteriaMenu from "./screens/Home/CafeteriaMenu";
 import OrderScreen from "./screens/Home/OderScreen";
+import PersonalInfo from "./screens/Home/PersonalInfo";
 // import CreateAccount from "./screens/Registration/CreateAccount";
 // import ResetPassword from "./screens/Registration/ResetPassword";
 // import Confirmation from "./screens/Registration/Confirmation";
@@ -100,6 +101,11 @@ const Navigator = () => {
           <Stack.Screen
             name="SignIn"
             component={SignIn}
+            options={{ title: null, headerShown: false }}
+          />
+          <Stack.Screen
+            name="PersonalInfo"
+            component={PersonalInfo}
             options={{ title: null, headerShown: false }}
           />
           <Stack.Screen

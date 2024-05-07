@@ -1,5 +1,5 @@
 // DetailsScreen.js
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -15,9 +15,21 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { database } from "../../firebaseConfig";
+import {
+  ref,
+  child,
+  get,
+  serverTimestamp,
+  set,
+  push,
+  onDisconnect,
+  onValue,
+} from "firebase/database";
 
 import { FlutterwaveInit } from "flutterwave-react-native";
 import WebViewModal from "./WebViewModal";
+import DataContext from "../../context/DataContext";
 
 const DATA = [
   {
@@ -36,11 +48,35 @@ const OrderScreen = ({ route }) => {
   const [ismodalVisible, setIsModalVisible] = useState(false);
   const [paymentLink, setPaymentLink] = useState(null);
   const { itemId, itemImage, itemName, itemPrice } = route.params;
-  const [quantity, setQuantity] = useState(1);
+  const [quantity1, setQuantity1] = useState(1);
+  const [eggQuantity2, setEggQuantity2] = useState(1);
   const [price, setPrice] = useState(itemPrice);
   const [defaultPrice, setDefaultPrice] = useState(2000);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedId, setSelectedId] = useState();
+  const [currentUser, setCurrentUser] = useState();
+
+  const { userIdentify, user } = useContext(DataContext);
+  console.log(user);
+
+  let eggPrice = 200;
+
+  useEffect(() => {
+    const dbRef = ref(database);
+    get(child(dbRef, `users/${userIdentify}/`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setCurrentUser(Object.values(snapshot.val()));
+          //   console.log(currentUser);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoadError(error);
+      });
+  }, [database]);
 
   //   Handel web view
   const openModal = () => {
@@ -70,9 +106,9 @@ const OrderScreen = ({ route }) => {
         tx_ref: generateTransactionReference(20),
         authorization: "FLWPUBK_TEST-0f6335aff300d743e2c864258d738c41-X",
         customer: {
-          email: "ajogujoseph0317@gmail.com",
-          phonenumber: "08146821934",
-          name: "Joseph Ajogu",
+          email: currentUser[0],
+          phonenumber: currentUser[6],
+          name: `${currentUser[2]} ${currentUser[4]}`,
         },
         amount: price,
         currency: "NGN",
@@ -90,48 +126,20 @@ const OrderScreen = ({ route }) => {
   };
 
   //   handling state change for price
-  const handlePlus = () => {
-    if (quantity >= 1) {
-      setQuantity(quantity + 1);
-      setPrice(price + itemPrice);
-    }
+  const handlePlus = (price, setQuantity) => {
+    setQuantity((quantity) => quantity + 1);
+    setPrice((itemPrice) => itemPrice + price);
   };
-  const handleMinus = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-      setPrice(price - itemPrice);
-    }
+  const handleMinus = (price, setQuantity) => {
+    setQuantity((prevQuantity) => {
+      if (prevQuantity > 1) {
+        return prevQuantity - 1;
+      }
+      return prevQuantity;
+    });
+    setPrice((prevTotalPrice) => prevTotalPrice - price);
   };
 
-  const [checkboxGroup1, setCheckboxGroup1] = useState([
-    { id: 1, title: "Checkbox 1", isChecked: false },
-    { id: 2, title: "Checkbox 2", isChecked: false },
-  ]);
-
-  const [checkboxGroup2, setCheckboxGroup2] = useState([
-    { id: 3, title: "Checkbox 3", isChecked: false },
-    { id: 4, title: "Checkbox 4", isChecked: false },
-  ]);
-
-  const handleCheckboxPress = (checkbox, group) => {
-    if (group === 1) {
-      setCheckboxGroup1(
-        checkboxGroup1.map((item) =>
-          item.id === checkbox.id
-            ? { ...item, isChecked: !item.isChecked }
-            : item
-        )
-      );
-    } else if (group === 2) {
-      setCheckboxGroup2(
-        checkboxGroup2.map((item) =>
-          item.id === checkbox.id
-            ? { ...item, isChecked: !item.isChecked }
-            : item
-        )
-      );
-    }
-  };
   return (
     <SafeAreaView style={{ height: "100%" }}>
       <ScrollView>
@@ -176,22 +184,27 @@ const OrderScreen = ({ route }) => {
                 borderRadius: 10,
               }}
             >
-              <TouchableOpacity onPress={() => handleMinus()}>
+              <TouchableOpacity
+                onPress={() => handleMinus(itemPrice, setQuantity1)}
+              >
                 <AntDesign name="minuscircle" size={24} color="black" />
               </TouchableOpacity>
 
-              <Text>{quantity}</Text>
-              <TouchableOpacity onPress={() => handlePlus()}>
+              <Text>{quantity1}</Text>
+              <TouchableOpacity
+                onPress={() => handlePlus(itemPrice, setQuantity1)}
+              >
                 <AntDesign name="pluscircle" size={24} color="black" />
               </TouchableOpacity>
               <Text>₦{price}</Text>
             </View>
             <View style={{ marginTop: 20, paddingLeft: 0 }}>
-              <Text style={{ fontSize: 25, fontWeight: 700 }}>Soup</Text>
+              <Text style={{ fontSize: 25, fontWeight: 700 }}>Toppins</Text>
               <View
                 style={{
                   marginTop: 10,
                   width: "90%",
+                  height: "90%",
                   padding: 20,
                   display: "flex",
                   flexDirection: "column",
@@ -202,26 +215,45 @@ const OrderScreen = ({ route }) => {
                   borderRadius: 10,
                 }}
               >
-                {checkboxGroup1.map((checkbox) => (
-                  <TouchableOpacity
-                    key={checkbox.id}
-                    style={styles.checkboxContainer}
-                    onPress={() => handleCheckboxPress(checkbox, 1)}
+                <View
+                  style={{
+                    width: "100%",
+                    alignItems: "center",
+                    justifyContent: "space-around",
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Text>Egg</Text>
+                  <Text>₦200</Text>
+                  <View
+                    style={{
+                      marginTop: 20,
+                      width: 200,
+                      height: 35,
+                      backgroundColor: "#EDE9E9",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-around",
+                      borderRadius: 10,
+                    }}
                   >
-                    <View
-                      style={
-                        checkbox.isChecked
-                          ? styles.checkedBox
-                          : styles.uncheckedBox
-                      }
+                    <TouchableOpacity
+                      onPress={() => handleMinus(eggPrice, setEggQuantity2)}
                     >
-                      {checkbox.isChecked && (
-                        <Text style={styles.checkMark}>✓</Text>
-                      )}
-                    </View>
-                    <Text>{checkbox.title}</Text>
-                  </TouchableOpacity>
-                ))}
+                      <AntDesign name="minuscircle" size={24} color="black" />
+                    </TouchableOpacity>
+
+                    <Text>{eggQuantity2}</Text>
+                    <TouchableOpacity
+                      onPress={() => handlePlus(eggPrice, setEggQuantity2)}
+                    >
+                      <AntDesign name="pluscircle" size={24} color="black" />
+                    </TouchableOpacity>
+                    <Text>₦{price}</Text>
+                  </View>
+                </View>
               </View>
             </View>
           </View>
