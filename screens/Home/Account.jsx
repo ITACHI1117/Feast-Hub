@@ -13,8 +13,14 @@ import { useNavigation } from "@react-navigation/native";
 import DataContext from "../../context/DataContext";
 
 const Account = () => {
+  const { signOutUser, signed } = useContext(DataContext);
   const navigation = useNavigation();
 
+  async function redirect() {
+    await signed;
+    navigation.replace("LogIn");
+  }
+  !signed ? redirect() : "";
   return (
     <View>
       <View
@@ -40,7 +46,7 @@ const Account = () => {
           ACCOUNT
         </Text>
         <TouchableOpacity
-          onPress={() => SignUserout()}
+          onPress={() => signOutUser()}
           style={{
             backgroundColor: "white",
             padding: 10,

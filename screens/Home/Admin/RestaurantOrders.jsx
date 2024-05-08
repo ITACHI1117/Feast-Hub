@@ -9,26 +9,28 @@ import {
   StatusBar,
   ActivityIndicator,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import BottomNav from "./components/BottomNav";
 import { useNavigation } from "@react-navigation/native";
 import { auth, storage, reference, database } from "../../../firebaseConfig";
-import {
-  ref,
-  child,
-  get,
-  serverTimestamp,
-  set,
-  push,
-  onDisconnect,
-  onValue,
-  update,
-} from "firebase/database";
+import { ref, child, get, update } from "firebase/database";
+import { AntDesign } from "@expo/vector-icons";
+import DataContext from "../../../context/DataContext";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
 const RestaurantOrders = ({ route }) => {
+  const { loggedInuser, signOutUser, signed } = useContext(DataContext);
   const restaurantName = route.params.data;
+  console.log(signed);
+
+  async function redirect() {
+    await signed;
+    navigation.replace("LogIn");
+  }
+
+  !signed ? redirect() : "";
 
   const { colors } = useTheme();
   const navigation = useNavigation();
@@ -92,7 +94,7 @@ const RestaurantOrders = ({ route }) => {
       await update(ref(database, `${restaurantName}Menu/`), {
         [item.id]: { ...item, available: !item.available },
       });
-      console.log("Availability updated successfully!");
+      //   console.log("Availability updated successfully!");
     } catch (error) {
       console.error("Error updating availability:", error);
     }
@@ -173,6 +175,11 @@ const RestaurantOrders = ({ route }) => {
           marginTop: 20,
         }}
       >
+        <View style={{ position: "absolute", top: 0, left: 20 }}>
+          <TouchableOpacity onPress={() => signOutUser()}>
+            <SimpleLineIcons name="logout" size={25} color="black" />
+          </TouchableOpacity>
+        </View>
         <Text
           style={{
             fontSize: 30,

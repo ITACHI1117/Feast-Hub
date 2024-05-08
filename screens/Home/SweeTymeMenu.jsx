@@ -158,7 +158,7 @@ const SweeTyme = () => {
             paddingBottom: 10,
           }}
         >
-          Cafeteria Menu
+          SweeTyme Menu
         </Text>
 
         <View

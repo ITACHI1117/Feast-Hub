@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
   },
   modalView: {
     position: "absolute",
-    left: 40,
+    left: "25%",
+    right: "25%",
     bottom: 60,
     margin: 20,
     backgroundColor: "white",

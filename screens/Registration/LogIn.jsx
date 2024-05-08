@@ -70,11 +70,11 @@ const LogIn = () => {
               paddingTop: 10,
             }}
           >
-            <View style={{ position: "absolute", top: 20, left: 20 }}>
+            {/* <View style={{ position: "absolute", top: 20, left: 20 }}>
               <TouchableOpacity>
                 <AntDesign name="arrowleft" size={30} color="black" />
               </TouchableOpacity>
-            </View>
+            </View> */}
             <ScrollView
               contentContainerStyle={{
                 display: "flex",

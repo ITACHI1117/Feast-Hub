@@ -121,6 +121,18 @@ export const DataProvider = ({ children }) => {
       });
   }, [email, password]);
 
+  const signOutUser = () => {
+    signOut(auth)
+      .then(() => {
+        setSigned(false);
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        console.log(error);
+        // An error happened.
+      });
+  };
+
   //   Upload Image function
   function upload() {
     if (foodimage === null) return;
@@ -202,6 +214,7 @@ export const DataProvider = ({ children }) => {
         setImageUpload,
         setProfileImg,
         // functions
+        signOutUser,
         submit,
         signIn,
         upload,

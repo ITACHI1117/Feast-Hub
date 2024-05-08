@@ -23,6 +23,7 @@ const CreateAccount = ({ navigation }) => {
     email,
     password,
     user,
+    signed,
     username,
     phone,
     signUpError,
@@ -34,6 +35,15 @@ const CreateAccount = ({ navigation }) => {
     SignUpLoading,
   } = useContext(DataContext);
 
+  // check if user is logged in already
+  async function redirect() {
+    await signed;
+    navigation.replace("PersonalInfo");
+  }
+
+  signed ? redirect() : "";
+
+  // check if user is has signned up
   async function redirect() {
     await user;
     navigation.replace("PersonalInfo");

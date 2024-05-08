@@ -53,15 +53,15 @@ const BottomNav = () => {
           </View>
         </View>
       </Modal>
-      <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-        <Entypo name="home" size={24} color="black" />
+      <TouchableOpacity onPress={() => navigation.navigate("RestaurantOrders")}>
+        {/* <Entypo name="home" size={24} color="black" /> */}
       </TouchableOpacity>
       {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Entypo name="menu" size={24} color="black" />
       </TouchableOpacity> */}
 
       <TouchableOpacity onPress={() => navigation.navigate("Account")}>
-        <FontAwesome5 name="user-alt" size={24} color="black" />
+        <Entypo name="open-book" size={30} color="black" />
       </TouchableOpacity>
       {/* <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
           <AntDesign name="questioncircle" size={24} color="black" />
