@@ -13,10 +13,11 @@ import EleganceMenu from "./screens/Home/EleganceMenu";
 import BottomNav from "./screens/Home/BottomNav";
 import SweeTymeMenu from "./screens/Home/SweeTymeMenu";
 import CafeteriaMenu from "./screens/Home/CafeteriaMenu";
-import OrderScreen from "./screens/Home/OderScreen";
+import OrderScreen from "./screens/Home/OrderScreen";
 import PersonalInfo from "./screens/Home/PersonalInfo";
 import AddressScreen from "./screens/Home/AddressScreen";
 import SelectDelivery from "./screens/Home/SelectDelivery";
+import Orders from "./screens/Home/Orders";
 
 // import CreateAccount from "./screens/Registration/CreateAccount";
 // import ResetPassword from "./screens/Registration/ResetPassword";
@@ -150,6 +151,11 @@ const Navigator = () => {
           <Stack.Screen
             name="SelectDelivery"
             component={SelectDelivery}
+            options={{ title: null, headerShown: false }}
+          />
+          <Stack.Screen
+            name="Orders"
+            component={Orders}
             options={{ title: null, headerShown: false }}
           />
           {/* <Stack.Screen

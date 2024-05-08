@@ -11,7 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "scheme": "feasthub",
+    "scheme": "myapp",
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true

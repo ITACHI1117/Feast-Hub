@@ -7,59 +7,62 @@ import {
   Image,
   FlatList,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import BottomNav from "./BottomNav";
 import { useNavigation } from "@react-navigation/native";
+import { database } from "../../firebaseConfig";
+import {
+  ref,
+  child,
+  get,
+  serverTimestamp,
+  set,
+  push,
+  onDisconnect,
+  onValue,
+} from "firebase/database";
 
 const SweeTyme = () => {
   const { colors } = useTheme();
   const navigation = useNavigation();
 
-  const DATA = [
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      title: "Amala",
-      price: "₦1700",
-      image: require("../../assets/amala.jpg"),
-    },
-    {
-      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-      title: "Second Item",
-      price: "₦2000",
-      image: require("../../assets/amala.jpg"),
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d72",
-      title: "Third Item",
-      price: "₦1500",
-      image: require("../../assets/amala.jpg"),
-    },
-    {
-      id: "58694a0f-d3da1-471f-bd96-145571e29d72",
-      title: "Third Item",
-      price: "₦1400",
-      image: require("../../assets/amala.jpg"),
-    },
-    {
-      id: "58694a0f-3da1f-471f-bd96-145571e29d72",
-      title: "Third Item",
-      price: "₦1000",
-      image: require("../../assets/amala.jpg"),
-    },
-    {
-      id: "58694a0f-3da1f-471f-bd96-145571e29d72",
-      title: "Third Item",
-      price: "₦1900",
-      image: require("../../assets/amala.jpg"),
-    },
-  ];
+  // getting data fromm database
+  const [allUsers, setAllUsers] = useState();
+  const [LoadError, setLoadError] = useState();
+
+  useEffect(() => {
+    const dbRef = ref(database);
+    get(child(dbRef, `SweeTymeMenu/`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setAllUsers(Object.values(snapshot.val()));
+          //   console.log(allUsers);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoadError(error);
+      });
+  }, [database]);
+
+  const DATA = allUsers;
 
   const Item = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={() =>
+        navigation.navigate("OrderScreen", {
+          itemId: item.id,
+          itemImage: item.image,
+          itemName: item.name,
+          itemPrice: item.price,
+        })
+      }
       style={[styles.item, { backgroundColor }]}
     >
       <Image
@@ -69,13 +72,16 @@ const SweeTyme = () => {
           borderRadius: 10,
           objectFit: "cover",
         }}
-        source={item.image}
+        // source={require("../../assets/chicken1.png")}
+        source={{
+          uri: item.image,
+        }}
       />
       <Text style={[styles.title, { color: textColor, textAlign: "center" }]}>
-        {item.title}
+        {item.name}
       </Text>
       <Text style={[styles.title, { color: textColor, textAlign: "center" }]}>
-        {item.price}
+        ₦{item.price}
       </Text>
     </TouchableOpacity>
   );
@@ -116,7 +122,7 @@ const SweeTyme = () => {
             paddingBottom: 10,
           }}
         >
-          SweeTyme Menu
+          Cafeteria Menu
         </Text>
 
         <View
@@ -152,13 +158,17 @@ const SweeTyme = () => {
             marginBottom: 100,
           }}
         >
-          <FlatList
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            extraData={selectedId}
-            numColumns={2}
-          />
+          {allUsers === undefined ? (
+            <ActivityIndicator size="large" color="#F33F3F" />
+          ) : (
+            <FlatList
+              data={DATA}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              extraData={selectedId}
+              numColumns={2}
+            />
+          )}
         </ScrollView>
         <BottomNav />
       </View>

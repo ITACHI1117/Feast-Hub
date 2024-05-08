@@ -13,6 +13,7 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
+import * as Linking from "expo-linking";
 import { useTheme } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import DataContext from "../../context/DataContext";
@@ -29,13 +30,48 @@ import {
   update,
   getDatabase,
 } from "firebase/database";
+import { auth, storage, reference } from "../../firebaseConfig";
 import { FlutterwaveInit } from "flutterwave-react-native";
 import WebViewModal from "./WebViewModal";
 
 const SelectDelivery = ({ route }) => {
+  const navigation = useNavigation();
+  const [uploaded, setUploaded] = useState(false);
+  const [transactionId, setTransactionId] = useState(null);
+
   const { data } = route.params;
 
-  console.log(data[0].user[0]);
+  const UpdatesOders = () => {
+    set(
+      reference(database, "Orders/" + data[0].user[1] + `/${transactionId}`),
+      {
+        id: data[0].user[1],
+        name: `${data[0].user[2]} ${data[0].user[4]}`,
+        email: data[0].user[0],
+        phone: data[0].user[6],
+        matric: data[0].user[3],
+        food: data[0].name,
+        price: data[0].price,
+        quantity: `${data[0].quantity} Quantity`,
+        egg: `${data[0].topins[0]} Egg`,
+        meat: `${data[0].topins[1]} Meat`,
+        fish: `${data[0].topins[2]} Fish`,
+        moimoi: `${data[0].topins[3]} Moi MOi`,
+        moimoi: `${data[0].topins[4]} Plantain`,
+      }
+    )
+      .then(() => {
+        // setting userIdentify to userId so i can pass the same user id
+        // to other functions that may need it
+        setUploaded(true);
+        navigation.replace("Orders");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  //   console.log(data[0].user);
   let deliveryFee = 400;
   const [total, setTotal] = useState(data[0].price + deliveryFee);
   const [ismodalVisible, setIsModalVisible] = useState(false);
@@ -63,10 +99,11 @@ const SelectDelivery = ({ route }) => {
   };
 
   const handlePaymentInitiation = async () => {
+    const Tx_id = generateTransactionReference(20);
     try {
       // initialize payment
       const Link = await FlutterwaveInit({
-        tx_ref: generateTransactionReference(20),
+        tx_ref: Tx_id,
         authorization: "FLWPUBK_TEST-0f6335aff300d743e2c864258d738c41-X",
         customer: {
           email: data[0].user[0],
@@ -81,7 +118,7 @@ const SelectDelivery = ({ route }) => {
 
       // Set the payment link in state
       setPaymentLink(Link);
-      console.log(Link);
+      setTransactionId(Tx_id);
     } catch (error) {
       console.error("Error initializing payment:", error);
     }
@@ -258,18 +295,56 @@ const SelectDelivery = ({ route }) => {
                     <Text style={{ fontSize: 15, fontWeight: 500 }}>
                       {data[1]}
                     </Text>
-                  </View>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => handlePaymentInitiation()}
-                  >
-                    <Text style={{ color: "white", fontSize: 20 }}>
-                      Proceed to Payment
+                    <Text style={{ fontSize: 15, fontWeight: 500 }}>
+                      {transactionId}
                     </Text>
-                  </TouchableOpacity>
+                  </View>
+                  {transactionId == null ? (
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => handlePaymentInitiation()}
+                    >
+                      <Text style={{ color: "white", fontSize: 20 }}>
+                        Proceed to Payment
+                      </Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={[styles.button, { backgroundColor: "#D8C027" }]}
+                      onPress={() => UpdatesOders()}
+                    >
+                      <Text style={{ color: "white", fontSize: 20 }}>
+                        Confirm
+                      </Text>
+                    </TouchableOpacity>
+                  )}
                 </View>
               </View>
             </ScrollView>
+            {transactionId == null ? (
+              ""
+            ) : (
+              <View
+                style={{
+                  position: "fixed",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  bottom: 10,
+                  backgroundColor: "white",
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 18,
+                    color: "#D8C027",
+                  }}
+                >
+                  Your Oder is being Processed. {"\n "} You can check the Order
+                  Page for Confirmation
+                </Text>
+              </View>
+            )}
           </SafeAreaView>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>

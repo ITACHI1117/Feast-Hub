@@ -83,10 +83,10 @@ export const DataProvider = ({ children }) => {
   }, [email, password, phone, userId, username]);
 
   const uploadFoods = () => {
-    set(reference(database, "CafeteriaMenu/" + userId), {
+    set(reference(database, "SweeTymeMenu/" + userId), {
       id: userId,
-      name: "JOLLOF RICE & CHICKEN",
-      price: 3000,
+      name: "OFADA STEW",
+      price: 1200,
       image: " ",
     })
       .then(() => {
