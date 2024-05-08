@@ -57,6 +57,7 @@ const CafeteriaMenu = () => {
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("OrderScreen", {
+          restaurant: "Cafeteria",
           itemId: item.id,
           itemImage: item.image,
           itemName: item.name,

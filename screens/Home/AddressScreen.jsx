@@ -38,6 +38,7 @@ const AddressScreen = ({ route }) => {
   const handleAddressChange = (text) => {
     setAddress(text);
   };
+  //   console.log(data.restaurant);
   return (
     <View>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -60,6 +61,7 @@ const AddressScreen = ({ route }) => {
             }}
           >
             <TouchableOpacity
+              onPress={() => navigation.goBack()}
               style={{ position: "absolute", left: 20, bottom: 30 }}
             >
               <AntDesign name="arrowleft" size={30} color="black" />

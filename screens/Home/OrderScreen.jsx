@@ -50,13 +50,13 @@ const OrderScreen = ({ route }) => {
 
   const [ismodalVisible, setIsModalVisible] = useState(false);
   const [paymentLink, setPaymentLink] = useState(null);
-  const { itemId, itemImage, itemName, itemPrice } = route.params;
+  const { restaurant, itemId, itemImage, itemName, itemPrice } = route.params;
   const [quantity1, setQuantity1] = useState(1);
-  const [eggQuantity2, setEggQuantity2] = useState(1);
-  const [meatQuantity2, setMeatQuantity2] = useState(1);
-  const [fishQuantity2, setEFishQuantity2] = useState(1);
-  const [moiMoiQuantity2, setMoiMoiQuantity2] = useState(1);
-  const [plantainQuantity2, setplantainQuantity2] = useState(1);
+  const [eggQuantity2, setEggQuantity2] = useState(0);
+  const [meatQuantity2, setMeatQuantity2] = useState(0);
+  const [fishQuantity2, setEFishQuantity2] = useState(0);
+  const [moiMoiQuantity2, setMoiMoiQuantity2] = useState(0);
+  const [plantainQuantity2, setplantainQuantity2] = useState(0);
   const [price, setPrice] = useState(itemPrice);
   const [defaultPrice, setDefaultPrice] = useState(2000);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -64,7 +64,7 @@ const OrderScreen = ({ route }) => {
   const [currentUser, setCurrentUser] = useState();
 
   const { userIdentify, user } = useContext(DataContext);
-  console.log(user.uid);
+  // console.log(user.uid);
   let eggPrice = 200;
 
   const Data = [
@@ -100,7 +100,7 @@ const OrderScreen = ({ route }) => {
     },
   ];
 
-  console.log(userIdentify);
+  // console.log(userIdentify);
 
   useEffect(() => {
     const dbRef = ref(database);
@@ -119,70 +119,19 @@ const OrderScreen = ({ route }) => {
       });
   }, [database]);
 
-  //   Handel web view
-  const openModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setIsModalVisible(false);
-  };
-
-  // Generating random text reference
-  const generateTransactionReference = (length) => {
-    let result = "";
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  };
-
-  const handlePaymentInitiation = async () => {
-    try {
-      // initialize payment
-      const Link = await FlutterwaveInit({
-        tx_ref: generateTransactionReference(20),
-        authorization: "FLWPUBK_TEST-0f6335aff300d743e2c864258d738c41-X",
-        customer: {
-          email: currentUser[0],
-          phonenumber: currentUser[6],
-          name: `${currentUser[2]} ${currentUser[4]}`,
-        },
-        amount: price,
-        currency: "NGN",
-        payment_options: "card",
-        redirect_url: "https://example.com/",
-      });
-
-      // Set the payment link in state
-      setPaymentLink(Link);
-      console.log(Link);
-    } catch (error) {
-      console.error("Error initializing payment:", error);
-    }
-    openModal();
-  };
-
   //   handling state change for price
   const handlePlus = (price, setQuantity) => {
     setQuantity((quantity) => quantity + 1);
     setPrice((itemPrice) => itemPrice + price);
   };
   const handleMinus = (price, setQuantity) => {
-    setQuantity((prevQuantity) => {
-      if (prevQuantity > 1) {
-        return prevQuantity - 1;
-      }
-      return prevQuantity;
-    });
-    setPrice((prevTotalPrice) => prevTotalPrice - price);
+    setQuantity((quantity) => quantity - 1);
+    setPrice((itemPrice) => itemPrice - price);
   };
 
   //   Cart Details
   const OrderDetails = {
+    restaurant: restaurant,
     user: currentUser,
     name: itemName,
     quantity: quantity1,
@@ -241,11 +190,20 @@ const OrderScreen = ({ route }) => {
                 borderRadius: 10,
               }}
             >
-              <TouchableOpacity
-                onPress={() => handleMinus(itemPrice, setQuantity1)}
-              >
-                <AntDesign name="minuscircle" size={24} color="#F33F3F" />
-              </TouchableOpacity>
+              {quantity1 == 1 ? (
+                <TouchableOpacity
+                  disabled
+                  onPress={() => handleMinus(itemPrice, setQuantity1)}
+                >
+                  <AntDesign name="minuscircle" size={24} color="gray" />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => handleMinus(itemPrice, setQuantity1)}
+                >
+                  <AntDesign name="minuscircle" size={24} color="#F33F3F" />
+                </TouchableOpacity>
+              )}
 
               <Text>{quantity1}</Text>
               <TouchableOpacity
@@ -302,19 +260,32 @@ const OrderScreen = ({ route }) => {
                             borderRadius: 10,
                           }}
                         >
-                          <TouchableOpacity
-                            onPress={() => handleMinus(eggPrice, setquantity)}
-                          >
-                            <AntDesign
-                              name="minuscircle"
-                              size={24}
-                              color="#F33F3F"
-                            />
-                          </TouchableOpacity>
+                          {quantity == 0 ? (
+                            <TouchableOpacity
+                              disabled
+                              onPress={() => handleMinus(price, setquantity)}
+                            >
+                              <AntDesign
+                                name="minuscircle"
+                                size={24}
+                                color="gray"
+                              />
+                            </TouchableOpacity>
+                          ) : (
+                            <TouchableOpacity
+                              onPress={() => handleMinus(price, setquantity)}
+                            >
+                              <AntDesign
+                                name="minuscircle"
+                                size={24}
+                                color="#F33F3F"
+                              />
+                            </TouchableOpacity>
+                          )}
 
                           <Text>{quantity}</Text>
                           <TouchableOpacity
-                            onPress={() => handlePlus(eggPrice, setquantity)}
+                            onPress={() => handlePlus(price, setquantity)}
                           >
                             <AntDesign
                               name="pluscircle"
@@ -354,11 +325,6 @@ const OrderScreen = ({ route }) => {
       >
         <Text style={{ color: "white", fontSize: 18 }}>Order (N{price})</Text>
       </TouchableOpacity>
-      <WebViewModal
-        url={paymentLink}
-        onClose={closeModal}
-        visible={ismodalVisible}
-      />
     </SafeAreaView>
   );
 };

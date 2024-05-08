@@ -57,6 +57,7 @@ const SweeTyme = () => {
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("OrderScreen", {
+          restaurant: "SweeTyme",
           itemId: item.id,
           itemImage: item.image,
           itemName: item.name,

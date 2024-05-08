@@ -60,12 +60,12 @@ const BottomNav = () => {
         <Entypo name="menu" size={24} color="black" />
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Account")}>
         <FontAwesome5 name="user-alt" size={24} color="black" />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+      {/* <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
         <AntDesign name="questioncircle" size={24} color="black" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

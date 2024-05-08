@@ -57,6 +57,7 @@ const EleganceMenu = () => {
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("OrderScreen", {
+          restaurant: "Elegance",
           itemId: item.id,
           itemImage: item.image,
           itemName: item.name,

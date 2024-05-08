@@ -40,10 +40,14 @@ const SelectDelivery = ({ route }) => {
   const [transactionId, setTransactionId] = useState(null);
 
   const { data } = route.params;
+  //   console.log(data[0].restaurant);
 
   const UpdatesOders = () => {
     set(
-      reference(database, "Orders/" + data[0].user[1] + `/${transactionId}`),
+      reference(
+        database,
+        `Orders/${data[0].restaurant}/${data[0].user[1]}/${transactionId}`
+      ),
       {
         id: data[0].user[1],
         name: `${data[0].user[2]} ${data[0].user[4]}`,
@@ -147,6 +151,7 @@ const SelectDelivery = ({ route }) => {
             }}
           >
             <TouchableOpacity
+              onPress={() => navigation.goBack()}
               style={{ position: "absolute", left: 20, bottom: 30 }}
             >
               <AntDesign name="arrowleft" size={30} color="black" />

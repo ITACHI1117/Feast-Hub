@@ -18,6 +18,7 @@ import PersonalInfo from "./screens/Home/PersonalInfo";
 import AddressScreen from "./screens/Home/AddressScreen";
 import SelectDelivery from "./screens/Home/SelectDelivery";
 import Orders from "./screens/Home/Orders";
+import Account from "./screens/Home/Account";
 
 // import CreateAccount from "./screens/Registration/CreateAccount";
 // import ResetPassword from "./screens/Registration/ResetPassword";
@@ -156,6 +157,11 @@ const Navigator = () => {
           <Stack.Screen
             name="Orders"
             component={Orders}
+            options={{ title: null, headerShown: false }}
+          />
+          <Stack.Screen
+            name="Account"
+            component={Account}
             options={{ title: null, headerShown: false }}
           />
           {/* <Stack.Screen
