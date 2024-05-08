@@ -19,6 +19,8 @@ import AddressScreen from "./screens/Home/AddressScreen";
 import SelectDelivery from "./screens/Home/SelectDelivery";
 import Orders from "./screens/Home/Orders";
 import Account from "./screens/Home/Account";
+import AdminLogin from "./screens/Registration/AdminLogIn";
+import RestaurantOrders from "./screens/Home/Admin/RestaurantOrders";
 
 // import CreateAccount from "./screens/Registration/CreateAccount";
 // import ResetPassword from "./screens/Registration/ResetPassword";
@@ -162,6 +164,16 @@ const Navigator = () => {
           <Stack.Screen
             name="Account"
             component={Account}
+            options={{ title: null, headerShown: false }}
+          />
+          <Stack.Screen
+            name="AdminLogin"
+            component={AdminLogin}
+            options={{ title: null, headerShown: false }}
+          />
+          <Stack.Screen
+            name="RestaurantOrders"
+            component={RestaurantOrders}
             options={{ title: null, headerShown: false }}
           />
           {/* <Stack.Screen

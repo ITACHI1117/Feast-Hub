@@ -12,9 +12,9 @@ import {
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
-import BottomNav from "./BottomNav";
+import BottomNav from "./components/BottomNav";
 import { useNavigation } from "@react-navigation/native";
-import { database } from "../../firebaseConfig";
+import { auth, storage, reference, database } from "../../../firebaseConfig";
 import {
   ref,
   child,
@@ -24,19 +24,23 @@ import {
   push,
   onDisconnect,
   onValue,
+  update,
 } from "firebase/database";
 
-const CafeteriaMenu = () => {
+const RestaurantOrders = ({ route }) => {
+  const restaurantName = route.params.data;
+
   const { colors } = useTheme();
   const navigation = useNavigation();
 
   // getting data fromm database
   const [allUsers, setAllUsers] = useState();
   const [LoadError, setLoadError] = useState();
+  const [isAvailable, setIAvailable] = useState();
 
   useEffect(() => {
     const dbRef = ref(database);
-    get(child(dbRef, `CafeteriaMenu/`))
+    get(child(dbRef, `${restaurantName}Menu/`))
       .then((snapshot) => {
         if (snapshot.exists()) {
           setAllUsers(Object.values(snapshot.val()));
@@ -52,21 +56,51 @@ const CafeteriaMenu = () => {
   }, [database]);
 
   const DATA = allUsers;
+  //   console.log(allUsers[0].available);
 
-  const Item = ({ item, onPress, backgroundColor, textColor }) =>
-    item.available ? (
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("OrderScreen", {
-            restaurant: "Cafeteria",
-            itemId: item.id,
-            itemImage: item.image,
-            itemName: item.name,
-            itemPrice: item.price,
-          })
-        }
-        style={[styles.item, { backgroundColor }]}
-      >
+  //   const UpdatesOders = (item, id, name, image, price) => {
+  //     const newAvailability = !item.available;
+  //     set(reference(database, `${restaurantName}Menu/${id}`), {
+  //       available: newAvailability,
+  //       id: id,
+  //       image: image,
+  //       name: name,
+  //       price: price,
+  //     })
+  //       .then(() => {
+  //         // setting userIdentify to userId so i can pass the same user id
+  //         // to other functions that may need it
+  //         setUploaded(true);
+  //         navigation.replace("Orders");
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //     return;
+  //   };
+
+  const toggleAvailability = async (item) => {
+    const updatedUsers = allUsers.map((user) => {
+      if (user.id === item.id) {
+        return { ...user, available: !item.available };
+      }
+      return user;
+    });
+    setAllUsers(updatedUsers);
+
+    try {
+      await update(ref(database, `${restaurantName}Menu/`), {
+        [item.id]: { ...item, available: !item.available },
+      });
+      console.log("Availability updated successfully!");
+    } catch (error) {
+      console.error("Error updating availability:", error);
+    }
+  };
+
+  const Item = React.memo(
+    ({ item, onPress, backgroundColor, textColor }) => (
+      <View style={[styles.item, { backgroundColor, marginBottom: 40 }]}>
         <Image
           style={{
             width: "100%",
@@ -85,25 +119,9 @@ const CafeteriaMenu = () => {
         <Text style={[styles.title, { color: textColor, textAlign: "center" }]}>
           ₦{item.price}
         </Text>
-      </TouchableOpacity>
-    ) : (
-      <TouchableOpacity
-        disabled
-        style={[styles.item, { backgroundColor, opacity: 0.5 }]}
-      >
-        <Image
-          style={{
-            width: "100%",
-            height: 160,
-            borderRadius: 10,
-            objectFit: "cover",
-          }}
-          // source={require("../../assets/chicken1.png")}
-          source={{
-            uri: item.image,
-          }}
-        />
-        <View
+
+        <TouchableOpacity
+          onPress={() => toggleAvailability(item)}
           style={{
             width: 100,
             marginTop: 10,
@@ -116,11 +134,16 @@ const CafeteriaMenu = () => {
           }}
         >
           <Text style={{ color: "white", fontSize: 15 }}>
-            {item.available ? "Available" : "Unavailable"}
+            {item.available ? "available" : "unavailable"}
           </Text>
-        </View>
-      </TouchableOpacity>
-    );
+        </TouchableOpacity>
+      </View>
+    ),
+    (prevProps, nextProps) => {
+      // Memoization function to prevent re-renders when unnecessary
+      return prevProps.item.available === nextProps.item.available;
+    }
+  );
 
   const [selectedId, setSelectedId] = useState();
 
@@ -158,7 +181,7 @@ const CafeteriaMenu = () => {
             paddingBottom: 10,
           }}
         >
-          Cafeteria Menu
+          {restaurantName} Menu
         </Text>
 
         <View
@@ -186,6 +209,7 @@ const CafeteriaMenu = () => {
             Special For You
           </Text>
         </View>
+
         {allUsers === undefined ? (
           <ActivityIndicator size="large" color="#F33F3F" />
         ) : (
@@ -202,13 +226,14 @@ const CafeteriaMenu = () => {
             numColumns={2}
           />
         )}
+
         <BottomNav />
       </View>
     </SafeAreaView>
   );
 };
 
-export default CafeteriaMenu;
+export default RestaurantOrders;
 
 const styles = StyleSheet.create({
   button: {

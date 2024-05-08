@@ -6,13 +6,15 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import DataContext from "../../context/DataContext";
 
 const Account = () => {
   const navigation = useNavigation();
+
   return (
     <View>
       <View
@@ -37,6 +39,21 @@ const Account = () => {
         <Text style={{ fontSize: 22, fontWeight: 700, color: "white" }}>
           ACCOUNT
         </Text>
+        <TouchableOpacity
+          onPress={() => SignUserout()}
+          style={{
+            backgroundColor: "white",
+            padding: 10,
+            paddingLeft: 15,
+            paddingRight: 15,
+            position: "absolute",
+            right: 20,
+            bottom: 30,
+            borderRadius: 10,
+          }}
+        >
+          <Text style={{ color: "#F33F3F" }}>LogOut</Text>
+        </TouchableOpacity>
       </View>
       <SafeAreaView>
         <ScrollView style={{ height: "80%", width: "100%" }}>

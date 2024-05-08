@@ -3,6 +3,7 @@ import { auth, storage, database, reference } from "../firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 
 import { set, update } from "firebase/database";

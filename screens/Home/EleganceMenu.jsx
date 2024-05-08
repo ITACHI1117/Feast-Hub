@@ -53,39 +53,74 @@ const EleganceMenu = () => {
 
   const DATA = allUsers;
 
-  const Item = ({ item, onPress, backgroundColor, textColor }) => (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("OrderScreen", {
-          restaurant: "Elegance",
-          itemId: item.id,
-          itemImage: item.image,
-          itemName: item.name,
-          itemPrice: item.price,
-        })
-      }
-      style={[styles.item, { backgroundColor }]}
-    >
-      <Image
-        style={{
-          width: "100%",
-          height: 160,
-          borderRadius: 10,
-          objectFit: "cover",
-        }}
-        // source={require("../../assets/chicken1.png")}
-        source={{
-          uri: item.image,
-        }}
-      />
-      <Text style={[styles.title, { color: textColor, textAlign: "center" }]}>
-        {item.name}
-      </Text>
-      <Text style={[styles.title, { color: textColor, textAlign: "center" }]}>
-        ₦{item.price}
-      </Text>
-    </TouchableOpacity>
-  );
+  const Item = ({ item, onPress, backgroundColor, textColor }) =>
+    item.available ? (
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("OrderScreen", {
+            restaurant: "Elegance",
+            itemId: item.id,
+            itemImage: item.image,
+            itemName: item.name,
+            itemPrice: item.price,
+          })
+        }
+        style={[styles.item, { backgroundColor }]}
+      >
+        <Image
+          style={{
+            width: "100%",
+            height: 160,
+            borderRadius: 10,
+            objectFit: "cover",
+          }}
+          // source={require("../../assets/chicken1.png")}
+          source={{
+            uri: item.image,
+          }}
+        />
+        <Text style={[styles.title, { color: textColor, textAlign: "center" }]}>
+          {item.name}
+        </Text>
+        <Text style={[styles.title, { color: textColor, textAlign: "center" }]}>
+          ₦{item.price}
+        </Text>
+      </TouchableOpacity>
+    ) : (
+      <TouchableOpacity
+        disabled
+        style={[styles.item, { backgroundColor, opacity: 0.5 }]}
+      >
+        <Image
+          style={{
+            width: "100%",
+            height: 160,
+            borderRadius: 10,
+            objectFit: "cover",
+          }}
+          // source={require("../../assets/chicken1.png")}
+          source={{
+            uri: item.image,
+          }}
+        />
+        <View
+          style={{
+            width: 100,
+            marginTop: 10,
+            backgroundColor: item.available ? "green" : "red",
+            alignItems: "center",
+            justifyContent: "center",
+            alignSelf: "center",
+            padding: 8,
+            borderRadius: 10,
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 15 }}>
+            {item.available ? "Available" : "Unavailable"}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
 
   const [selectedId, setSelectedId] = useState();
 
@@ -151,26 +186,23 @@ const EleganceMenu = () => {
             Special For You
           </Text>
         </View>
-        <ScrollView
-          sc
-          style={{
-            height: "100%",
-            width: "90%",
-            marginBottom: 100,
-          }}
-        >
-          {allUsers === undefined ? (
-            <ActivityIndicator size="large" color="#F33F3F" />
-          ) : (
-            <FlatList
-              data={DATA}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id}
-              extraData={selectedId}
-              numColumns={2}
-            />
-          )}
-        </ScrollView>
+
+        {allUsers === undefined ? (
+          <ActivityIndicator size="large" color="#F33F3F" />
+        ) : (
+          <FlatList
+            style={{
+              height: "100%",
+              width: "90%",
+              marginBottom: 100,
+            }}
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            extraData={selectedId}
+            numColumns={2}
+          />
+        )}
         <BottomNav />
       </View>
     </SafeAreaView>

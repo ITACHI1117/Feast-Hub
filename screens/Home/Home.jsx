@@ -13,7 +13,7 @@ import BottomNav from "./BottomNav";
 import DataContext from "../../context/DataContext";
 
 const Home = () => {
-  const { loggedInuser } = useContext(DataContext);
+  const { loggedInuser, SignUserout } = useContext(DataContext);
   const { colors } = useTheme();
   //   console.log(loggedInuser.email);
   return (

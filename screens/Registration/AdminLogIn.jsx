@@ -12,15 +12,17 @@ import {
   Platform,
   ActivityIndicator,
 } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import DataContext from "../../context/DataContext";
 import { useNavigation } from "@react-navigation/native";
+import { Picker } from "@react-native-picker/picker";
 
-const LogIn = () => {
+const AdminLogin = () => {
   const navigation = useNavigation();
+  const [selectedValue, setSelectedValue] = useState("Elegance");
 
   const { colors } = useTheme();
 
@@ -48,7 +50,7 @@ const LogIn = () => {
   async function redirect() {
     await signed;
 
-    navigation.replace("Home");
+    navigation.replace("RestaurantOrders", { data: selectedValue });
   }
 
   signed ? redirect() : "";
@@ -70,11 +72,11 @@ const LogIn = () => {
               paddingTop: 10,
             }}
           >
-            <View style={{ position: "absolute", top: 20, left: 20 }}>
+            {/* <View style={{ position: "absolute", top: 20, left: 20 }}>
               <TouchableOpacity>
                 <AntDesign name="arrowleft" size={30} color="black" />
               </TouchableOpacity>
-            </View>
+            </View> */}
             <ScrollView
               contentContainerStyle={{
                 display: "flex",
@@ -107,7 +109,7 @@ const LogIn = () => {
                   paddingBottom: 20,
                 }}
               >
-                Sign into your account
+                Sign into your restaurant account
               </Text>
               <View
                 style={{
@@ -118,6 +120,24 @@ const LogIn = () => {
                   marginLeft: 0,
                 }}
               >
+                <View
+                  style={{
+                    width: "90%",
+                    paddingTop: 5,
+                  }}
+                >
+                  <Picker
+                    style={{ height: 150 }}
+                    selectedValue={selectedValue}
+                    onValueChange={(itemValue, itemIndex) =>
+                      setSelectedValue(itemValue)
+                    }
+                  >
+                    <Picker.Item label="Elegance" value="Elegance" />
+                    <Picker.Item label="Cafeteria" value="Cafeteria" />
+                    <Picker.Item label="SweeTyme" value="SweeTyme" />
+                  </Picker>
+                </View>
                 <View
                   style={{
                     width: "90%",
@@ -191,23 +211,21 @@ const LogIn = () => {
                 ""
               )}
             </ScrollView>
-            <View
+            {/* <View
               style={{
                 position: "fixed",
                 alignItems: "center",
                 justifyContent: "center",
               }}
             >
-              <TouchableOpacity
-                onPress={() => navigation.replace("AdminLogin")}
-              >
+              <TouchableOpacity>
                 <Text
                   style={{ color: "#F33F3F", marginTop: 10, marginBottom: 20 }}
                 >
                   Admin?
                 </Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
@@ -215,7 +233,7 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default AdminLogin;
 
 const styles = StyleSheet.create({
   textInput: {
