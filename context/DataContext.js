@@ -9,7 +9,6 @@ import {
 import { set, update } from "firebase/database";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { child, get } from "firebase/database";
-import foodimage from "../assets/riceandstew.jpg";
 
 const DataContext = createContext({});
 

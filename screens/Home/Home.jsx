@@ -89,7 +89,9 @@ const Home = () => {
                 width: 150,
                 height: 150,
               }}
-              source={require("../../assets/chicken1.png")}
+              source={{
+                uri: "https://s3-alpha-sig.figma.com/img/d97e/f609/64d5ffe2a3d624970673fc1386449ff0?Expires=1716163200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=dkz2czE0nxrd39jM5FNJAKMF8drxN~mijWJ3qThlcjvVuggdyHaCPzKX03EuU~GOqIo0y5KUoOxR8CDQThinqhGgBsxb0a5Ad2h2hfZAuN2BCxVEmj3wL1P0E84WciHVzfJg8SZRF3c1kivTt9c3jJOZ27ONDUforUrVjAZXc3sK89DU4aQbXpe2Ksvjf8-qJAUduDCkRNyi1JnjhTKI0dkuRhMU3w-0i9Xo~zsFKGXSjR0yAOghH0QtTEXkYYI~aRGQjnFbLcb8ouw7sD4PwAvb5atIEpSZ0MiQRK5rUhKo8TvcUVmyDYLBotlNkmlRFdiCoxugLBmyN80fMUT7-w__",
+              }}
             />
           </View>
         </ScrollView>

@@ -19,7 +19,9 @@ const Congrats = ({ navigation }) => {
       >
         <Image
           style={{ width: 250, height: 250 }}
-          source={require("../../assets/present.png")}
+          source={{
+            uri: "https://s3-alpha-sig.figma.com/img/c39c/89b1/85eb8a0b41d5183b1a109a5976570aad?Expires=1716163200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=dOumXe6RO2xuKskbn09PMpkOtzr-6hujq4uDCh7grjwjaZW25qSs7AGJfPTJ2sw5VnCqVBMWgWcxiOKE3WgtHSjnozXO9oedlkVGJ4zLu~37SZm~b4JqnuroJLgQW8vSDzT1yLtAHFwo830Xi56rTsTTW0Gm35K2hZx5slAb7~l7ZNIP~qI0R~obsSx9VMaAu9HGchTVM0QcPlzz2zrfvs1jQhW5kDk3WFcUeq4U9dIviPw5WjVqo6Bnalbm7mU-v8vVuhzaw0-mO0Z0yzJFRoyGw21r6twHsLBzjqKQ28P47OCvxyCIE0TH65iQD2HHEepV4JdKpSKXU9LDztXr1Q__",
+          }}
         />
         <Text
           style={{
