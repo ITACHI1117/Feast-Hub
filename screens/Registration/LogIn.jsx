@@ -47,8 +47,7 @@ const LogIn = () => {
   // Stroing Email value and then redirecting
   async function redirect() {
     await signed;
-
-    navigation.replace("Home");
+    navigation.navigate("Home");
   }
 
   signed ? redirect() : "";

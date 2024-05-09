@@ -103,7 +103,7 @@ const Navigator = () => {
           <Stack.Screen
             name="LogIn"
             component={LogIn}
-            options={{ title: null, headerShown: false }}
+            options={{ title: null, headerShown: false, gestureEnabled: false }}
           />
           <Stack.Screen
             name="SignIn"
@@ -123,7 +123,7 @@ const Navigator = () => {
           <Stack.Screen
             name="Home"
             component={Home}
-            options={{ title: null, headerShown: false }}
+            options={{ title: null, headerShown: false, gestureEnabled: false }}
           />
           <Stack.Screen
             name="EleganceMenu"
