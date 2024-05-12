@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Featshub",
+    "name": "Feasthub",
     "slug": "Featshub",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -33,9 +31,7 @@
       }
     },
     "owner": "itachi1",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.1",
     "updates": {
       "url": "https://u.expo.dev/4b9424ad-763b-4e11-b87e-741801c219e7"
     }

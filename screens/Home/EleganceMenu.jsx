@@ -152,7 +152,7 @@ const EleganceMenu = () => {
       >
         <Text
           style={{
-            fontSize: 30,
+            fontSize: 25,
             fontWeight: 700,
             color: colors.text,
             paddingBottom: 10,
@@ -175,14 +175,14 @@ const EleganceMenu = () => {
           <Text
             style={{
               color: "black",
-              fontSize: 23,
+              fontSize: 20,
               fontWeight: 300,
               marginBottom: 10,
             }}
           >
             Our Food
           </Text>
-          <Text style={{ color: "#F33F3F", fontSize: 33, fontWeight: 700 }}>
+          <Text style={{ color: "#F33F3F", fontSize: 30, fontWeight: 700 }}>
             Special For You
           </Text>
         </View>
@@ -239,6 +239,6 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 10,
-    fontSize: 20,
+    fontSize: 15,
   },
 });

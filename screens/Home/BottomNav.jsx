@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 20,
     textAlign: "center",
-    fontSize: 19,
+    fontSize: 15,
     fontWeight: 600,
   },
 });

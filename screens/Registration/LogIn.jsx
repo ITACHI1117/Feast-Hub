@@ -89,7 +89,7 @@ const LogIn = () => {
               <Text
                 style={{
                   paddingTop: 80,
-                  fontSize: 35,
+                  fontSize: 30,
                   fontWeight: 700,
                   color: colors.text,
                   paddingBottom: 20,
@@ -100,7 +100,7 @@ const LogIn = () => {
               <Text
                 style={{
                   paddingTop: 5,
-                  fontSize: 17,
+                  fontSize: 15,
                   fontWeight: 400,
                   color: colors.text,
                   paddingBottom: 20,
@@ -126,7 +126,7 @@ const LogIn = () => {
                   <Text
                     style={{
                       marginBottom: 10,
-                      fontSize: 17,
+                      fontSize: 15,
                       fontWeight: 500,
                       marginLeft: 5,
                     }}
@@ -149,7 +149,7 @@ const LogIn = () => {
                   <Text
                     style={{
                       marginBottom: 10,
-                      fontSize: 17,
+                      fontSize: 15,
                       fontWeight: 500,
                       marginLeft: 5,
                     }}

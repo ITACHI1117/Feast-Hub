@@ -56,7 +56,7 @@ const Home = () => {
               marginBottom: 20,
             }}
           >
-            <Text style={{ color: "white", fontSize: 20 }}>
+            <Text style={{ color: "white", fontSize: 18 }}>
               Delivery to Doorsteps {"\n"}Crawford University, Igbesa {"\n"}Ogun
               State.
             </Text>
@@ -72,12 +72,12 @@ const Home = () => {
               borderRadius: 15,
             }}
           >
-            <Text style={{ color: "black", fontWeight: 600, fontSize: 30 }}>
+            <Text style={{ color: "black", fontWeight: 600, fontSize: 25 }}>
               Chicken Teriyaki
             </Text>
 
             <TouchableOpacity style={styles.button}>
-              <Text style={{ color: "white", fontSize: 23, fontWeight: 600 }}>
+              <Text style={{ color: "white", fontSize: 20, fontWeight: 600 }}>
                 Order Now
               </Text>
             </TouchableOpacity>
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: "50%",
+    width: "45%",
     height: 45,
     borderRadius: 10,
     marginTop: 20,

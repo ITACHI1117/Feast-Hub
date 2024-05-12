@@ -206,18 +206,18 @@ const OrderScreen = ({ route }) => {
                 style={{
                   marginTop: 10,
                   width: "90%",
-                  padding: 20,
+                  padding: 0,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "start",
                   justifyContent: "space-between",
-                  borderWidth: 1,
-                  borderBlockColor: "gray",
+                  // borderWidth: 1,
+                  // borderBlockColor: "gray",
                   borderRadius: 10,
                   marginBottom: 20,
                 }}
               >
-                <ScrollView>
+                <ScrollView style={{ marginBottom: 100 }}>
                   {Data.map(({ toppin, price, quantity, setquantity }) => {
                     return (
                       <View
@@ -226,7 +226,7 @@ const OrderScreen = ({ route }) => {
                           width: "100%",
                           height: 50,
                           alignItems: "center",
-                          justifyContent: "space-around",
+                          justifyContent: "space-between",
                           display: "flex",
                           flexDirection: "row",
                           marginBottom: 20,
