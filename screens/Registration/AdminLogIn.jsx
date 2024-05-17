@@ -45,12 +45,11 @@ const AdminLogin = () => {
   const handlePasswordChange = (text) => {
     setPassword(text);
   };
-
+  console.log(signed);
   // Stroing Email value and then redirecting
   async function redirect() {
     await signed;
-
-    navigation.push("RestaurantOrders", { data: selectedValue });
+    navigation.replace("RestaurantOrders", { data: selectedValue });
   }
 
   signed ? redirect() : "";

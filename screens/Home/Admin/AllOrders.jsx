@@ -43,48 +43,26 @@ const AllOrders = ({ route }) => {
   // getting user id
   useEffect(() => {
     const dbRef = ref(database);
-    get(child(dbRef, `users/`))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          setCurrentUser(snapshot.val());
-          // console.log(Object.values(snapshot.val()));
-          get(child(dbRef, `Orders/${restaurant}/${snapshot.val().id}`))
-            .then((snapshot) => {
-              if (snapshot.exists()) {
-                // setAllUsers(Object.values(snapshot.val()));
-                const mappedData = Object.values(snapshot.val()).map((item) => {
-                  if (!item) {
-                    return {}; // Return an empty object if item is undefined
-                  }
-                  // Perform operations on each object
-                  return {
-                    name: item.name,
-                    email: item.email,
-                    food: item.food,
-                    price: item.price,
-                    phone: item.phone,
-                    foodImage: item.foodImage,
-                    address: item.address,
-                  };
-                });
-                setAllUsers(mappedData);
-              } else {
-                setAllUsers("No data available");
-              }
-            })
-            .catch((error) => {
-              console.error(error);
-              setLoadError(error);
-            });
-        } else {
-          console.log("No data available");
-        }
-        console.log(currentUser);
-      })
-      .catch((error) => {
-        console.error(error);
-        setLoadError(error);
-      });
+
+    get(child(dbRef, `Orders/${restaurant}`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        // console.log(Object.values(snapshot.val()));
+        // setAllUsers(Object.values(snapshot.val()));
+        const mappedData = Object.values(snapshot.val()).map((item) => {
+          if (!item) {
+            return {}; // Return an empty object if item is undefined
+          }
+          // Perform operations on each object
+          return Object.values(item)[0];
+        });
+        setAllUsers(mappedData);
+        // mappedData.forEach((item) => {
+        //   console.log(JSON.stringify(item, null, 2));
+        // });
+      } else {
+        setAllUsers("No data available");
+      }
+    });
   }, [restaurant]);
 
   const handleRestaurant = (restaurantName) => {
@@ -124,21 +102,21 @@ const AllOrders = ({ route }) => {
   // } else {
   //   console.log("undefined");
   // }
-
+  console.log(`hh ${allUsers}`);
   const DATA = allUsers;
 
   const Item = ({ item, onPress, backgroundColor, textColor }) =>
     allUsers != "No data available" ? (
       <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("OrderScreen", {
-            restaurant: "Elegance",
-            itemId: item.id,
-            itemImage: item.image,
-            itemName: item.name,
-            itemPrice: item.price,
-          })
-        }
+        // onPress={() =>
+        //   navigation.navigate("OrderScreen", {
+        //     restaurant: "Elegance",
+        //     itemId: item.id,
+        //     itemImage: item.image,
+        //     itemName: item.name,
+        //     itemPrice: item.price,
+        //   })
+        // }
         style={[styles.item, { backgroundColor: "#F2EEEE" }]}
       >
         <Image
@@ -291,7 +269,7 @@ const AllOrders = ({ route }) => {
           <AntDesign name="arrowleft" size={30} color="white" />
         </TouchableOpacity>
         <Text style={{ fontSize: 22, fontWeight: 700, color: "white" }}>
-          My Oders
+          All Oders
         </Text>
       </View>
 

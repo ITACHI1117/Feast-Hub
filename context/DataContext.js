@@ -124,6 +124,7 @@ export const DataProvider = ({ children }) => {
     signOut(auth)
       .then(() => {
         setSigned(false);
+        setUser("");
         // Sign-out successful.
       })
       .catch((error) => {

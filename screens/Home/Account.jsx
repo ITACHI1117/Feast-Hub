@@ -18,7 +18,7 @@ const Account = () => {
 
   async function redirect() {
     await signed;
-    navigation.push("LogIn");
+    navigation.replace("LogIn");
   }
   !signed ? redirect() : "";
   return (
