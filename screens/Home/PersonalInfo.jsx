@@ -35,6 +35,7 @@ const PersonalInfo = ({ navigation }) => {
   const [matricNumber, setMatricNumber] = useState("");
   const [LastName, setLastNmae] = useState("");
   const [PhoneNumber, setPhoneNumber] = useState("");
+  const [Gender, setGender] = useState("");
   const [updated, setUpdated] = useState(false);
 
   const {
@@ -61,6 +62,9 @@ const PersonalInfo = ({ navigation }) => {
   };
   const handlePhoneNumberChange = (text) => {
     setPhoneNumber(text);
+  };
+  const handleGenderChange = (text) => {
+    setGender(text);
   };
 
   //   async function redirect() {
@@ -90,7 +94,7 @@ const PersonalInfo = ({ navigation }) => {
 
   //Update user info
 
-  function writeNewPost(LastName, matricNumber, PhoneNumber) {
+  function writeNewPost(LastName, matricNumber, PhoneNumber, Gender) {
     const database = getDatabase();
 
     // A post entry.
@@ -103,6 +107,7 @@ const PersonalInfo = ({ navigation }) => {
       lastname: LastName,
       matricNumber: matricNumber,
       phoneNumber: PhoneNumber,
+      gender: Gender,
     };
 
     // Get a key for a new Post.
@@ -119,7 +124,7 @@ const PersonalInfo = ({ navigation }) => {
       .then(() => {
         setUpdated(true);
         function redirect() {
-          navigation.push("Congrats");
+          navigation.replace("Congrats");
         }
 
         redirect();
@@ -247,10 +252,33 @@ const PersonalInfo = ({ navigation }) => {
                       keyboardType="numeric"
                     />
                   </View>
+                  <View
+                    style={{
+                      width: "90%",
+                      paddingTop: 5,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        marginBottom: 10,
+                        fontSize: 17,
+                        fontWeight: 500,
+                        marginLeft: 5,
+                      }}
+                    >
+                      Gender
+                    </Text>
+                    <TextInput
+                      style={[styles.textInput, { color: "black" }]}
+                      placeholderTextColor={colors.placeholder}
+                      placeholder="Your Gender"
+                      onChangeText={handleGenderChange}
+                    />
+                  </View>
                   <TouchableOpacity
                     style={styles.button}
                     onPress={() =>
-                      writeNewPost(LastName, matricNumber, PhoneNumber)
+                      writeNewPost(LastName, matricNumber, PhoneNumber, Gender)
                     }
                   >
                     <Text style={{ color: "white", fontSize: 20 }}>

@@ -43,7 +43,7 @@ const Home = ({ navigation }) => {
     // Use the random index to select a restaurant name from the array
     const selectedRestaurant = restaurantName[randomIndex];
 
-    console.log(selectedRestaurant);
+    // console.log(selectedRestaurant);
     setRestaurant(selectedRestaurant);
     const dbRef = ref(database);
     get(child(dbRef, `${selectedRestaurant}Menu/`))

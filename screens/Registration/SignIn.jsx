@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import React, { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -37,11 +38,11 @@ const CreateAccount = ({ navigation }) => {
 
   // check if user is logged in already
   async function redirect() {
-    await signed;
-    navigation.push("PersonalInfo");
+    await user;
+    navigation.replace("PersonalInfo");
   }
 
-  signed ? redirect() : "";
+  // signed ? redirect() : "";
 
   // check if user is has signned up
   // async function redirect() {
@@ -217,6 +218,11 @@ const CreateAccount = ({ navigation }) => {
                 </Text>
               </TouchableOpacity>
               <Text style={{ color: "red" }}>{signUpError}</Text>
+              {SignUpLoading ? (
+                <ActivityIndicator size="large" color="#F33F3F" />
+              ) : (
+                ""
+              )}
             </ScrollView>
             <View
               style={{

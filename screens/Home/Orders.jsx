@@ -30,11 +30,13 @@ import DataContext from "../../context/DataContext";
 
 const Orders = () => {
   const { colors } = useTheme();
+  const navigation = useNavigation();
+
   const [allUsers, setAllUsers] = useState();
   const [LoadError, setLoadError] = useState();
   const { userIdentify, user } = useContext(DataContext);
   const [currentUser, setCurrentUser] = useState();
-  const [restaurant, setRestaurant] = useState("Cafeteria");
+  const [restaurant, setRestaurant] = useState("Elegance");
 
   // getting user id
   useEffect(() => {
@@ -75,7 +77,7 @@ const Orders = () => {
         } else {
           console.log("No data available");
         }
-        console.log(currentUser);
+        // console.log(currentUser);
       })
       .catch((error) => {
         console.error(error);

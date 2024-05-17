@@ -38,9 +38,10 @@ const SelectDelivery = ({ route }) => {
   const navigation = useNavigation();
   const [uploaded, setUploaded] = useState(false);
   const [transactionId, setTransactionId] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("Option 1");
 
   const { data } = route.params;
-  console.log(data[1]);
+  // console.log(data[1]);
 
   const UpdatesOders = () => {
     set(
@@ -58,6 +59,7 @@ const SelectDelivery = ({ route }) => {
         foodImage: data[0].foodImage,
         price: data[0].price,
         address: data[1],
+        payment: selectedOption == "Option 1" ? "Paid" : "Payment On Delivery",
         quantity: `${data[0].quantity} Quantity`,
         egg: `${data[0].topins[0]} Egg`,
         meat: `${data[0].topins[1]} Meat`,
@@ -79,7 +81,7 @@ const SelectDelivery = ({ route }) => {
 
   //   console.log(data[0].user);
   let deliveryFee = 400;
-  const [total, setTotal] = useState(data[0].price + deliveryFee);
+  const [total, setTotal] = useState(data[0].price);
   const [ismodalVisible, setIsModalVisible] = useState(false);
   const [paymentLink, setPaymentLink] = useState(null);
 
@@ -129,6 +131,14 @@ const SelectDelivery = ({ route }) => {
       console.error("Error initializing payment:", error);
     }
     openModal();
+  };
+
+  const handleSelectOption = (option) => {
+    option === "Option 2"
+      ? setTotal(data[0].price + deliveryFee)
+      : setTotal(data[0].price);
+    // console.log(option);
+    setSelectedOption(option);
   };
 
   return (
@@ -306,15 +316,99 @@ const SelectDelivery = ({ route }) => {
                       {transactionId}
                     </Text>
                   </View>
-                  {transactionId == null ? (
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => handlePaymentInitiation()}
+                  <View
+                    style={{
+                      width: "100%",
+                      alignItems: "flex-start",
+                      marginLeft: 10,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontWeight: 700,
+                        marginTop: 20,
+                        marginBottom: 20,
+                      }}
                     >
-                      <Text style={{ color: "white", fontSize: 20 }}>
-                        Proceed to Payment
+                      DELIVERY METHOD
+                    </Text>
+                    <TouchableOpacity
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                      onPress={() => handleSelectOption("Option 1")}
+                    >
+                      <View
+                        style={{
+                          width: 15,
+                          height: 15,
+                          borderWidth: 1,
+                          borderBlockColor: "black",
+                          borderRadius: 10,
+                          marginRight: 5,
+                          backgroundColor:
+                            selectedOption === "Option 1"
+                              ? "#F33F3F"
+                              : "transparent",
+                        }}
+                      ></View>
+                      <Text style={{ fontSize: 17 }}>
+                        Pay up from restaurant
                       </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginTop: 10,
+                      }}
+                      onPress={() => handleSelectOption("Option 2")}
+                    >
+                      <View
+                        style={{
+                          width: 15,
+                          height: 15,
+                          borderWidth: 1,
+                          borderBlockColor: "black",
+                          borderRadius: 10,
+                          marginRight: 5,
+                          backgroundColor:
+                            selectedOption === "Option 2"
+                              ? "#F33F3F"
+                              : "transparent",
+                        }}
+                      ></View>
+                      <Text style={{ fontSize: 17 }}>
+                        Door Delivery ({total})
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  {transactionId == null ? (
+                    selectedOption === "Option 2" ? (
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => handlePaymentInitiation()}
+                      >
+                        <Text style={{ color: "white", fontSize: 20 }}>
+                          Proceed to Payment
+                        </Text>
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => UpdatesOders()}
+                      >
+                        <Text style={{ color: "white", fontSize: 20 }}>
+                          Order
+                        </Text>
+                      </TouchableOpacity>
+                    )
                   ) : (
                     <TouchableOpacity
                       style={[styles.button, { backgroundColor: "#D8C027" }]}

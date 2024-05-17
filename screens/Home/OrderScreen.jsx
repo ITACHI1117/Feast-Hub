@@ -136,11 +136,19 @@ const OrderScreen = ({ route }) => {
 
   return (
     <SafeAreaView>
+      <View style={{ marginBottom: 30 }}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ position: "absolute", left: 20, top: 0, zIndex: 10 }}
+        >
+          <AntDesign name="arrowleft" size={30} color="black" />
+        </TouchableOpacity>
+      </View>
       <ScrollView style={{ height: "100%", paddingBottom: 400 }}>
         <View style={{ height: "100%" }}>
           <View
             style={{
-              marginTop: 20,
+              marginTop: 40,
               padding: 30,
               width: "90%",
 
@@ -302,7 +310,7 @@ const OrderScreen = ({ route }) => {
           width: "90%",
           alignSelf: "center",
           position: "absolute",
-          bottom: 30,
+          bottom: 55,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

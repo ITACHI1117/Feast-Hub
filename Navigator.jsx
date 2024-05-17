@@ -114,12 +114,12 @@ const Navigator = () => {
           <Stack.Screen
             name="PersonalInfo"
             component={PersonalInfo}
-            options={{ title: null, headerShown: false }}
+            options={{ title: null, headerShown: false, gestureEnabled: false }}
           />
           <Stack.Screen
             name="Congrats"
             component={Congrats}
-            options={{ title: null, headerShown: false }}
+            options={{ title: null, headerShown: false, gestureEnabled: false }}
           />
           <Stack.Screen
             name="Home"

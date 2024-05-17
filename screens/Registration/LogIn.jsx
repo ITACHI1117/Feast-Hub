@@ -197,7 +197,9 @@ const LogIn = () => {
                 justifyContent: "center",
               }}
             >
-              <TouchableOpacity onPress={() => navigation.push("AdminLogin")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("AdminLogin")}
+              >
                 <Text
                   style={{ color: "#F33F3F", marginTop: 10, marginBottom: 20 }}
                 >
