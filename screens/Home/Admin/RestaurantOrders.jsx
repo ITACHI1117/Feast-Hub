@@ -19,6 +19,7 @@ import { ref, child, get, update } from "firebase/database";
 import { AntDesign } from "@expo/vector-icons";
 import DataContext from "../../../context/DataContext";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 
 const RestaurantOrders = ({ route }) => {
   const { loggedInuser, signOutUser, signed } = useContext(DataContext);
@@ -233,8 +234,27 @@ const RestaurantOrders = ({ route }) => {
             numColumns={2}
           />
         )}
+        <View style={styles.buttomNav}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("RestaurantOrders")}
+          >
+            {/* <Entypo name="home" size={24} color="black" /> */}
+          </TouchableOpacity>
+          {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <Entypo name="menu" size={24} color="black" />
+      </TouchableOpacity> */}
 
-        <BottomNav />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("AllOrders", {
+                data: restaurantName,
+              })
+            }
+          >
+            <Entypo name="open-book" size={30} color="black" />
+          </TouchableOpacity>
+        </View>
+        {/* <BottomNav data={restaurantName} /> */}
       </View>
     </SafeAreaView>
   );
@@ -271,5 +291,16 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 10,
     fontSize: 20,
+  },
+  buttomNav: {
+    justifyContent: "space-between",
+    paddingHorizontal: 25,
+    width: "100%",
+    flexDirection: "row",
+    position: "absolute",
+    bottom: "0%",
+    backgroundColor: "white",
+    padding: 10,
+    paddingBottom: 50,
   },
 });

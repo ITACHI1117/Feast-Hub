@@ -13,9 +13,11 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const BottomNav = () => {
+const BottomNav = ({ route }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+  const restaurantName = route;
+  console.log(restaurantName);
 
   const navigateToPage = (menu) => {
     navigation.navigate(menu);
@@ -23,36 +25,6 @@ const BottomNav = () => {
   };
   return (
     <View style={styles.buttomNav}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <TouchableOpacity onPress={() => navigateToPage("EleganceMenu")}>
-              <Text style={styles.modalText}>ELEGANCE</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigateToPage("CafeteriaMenu")}>
-              <Text style={styles.modalText}>CAFETERIA</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigateToPage("SweeTymeMenu")}>
-              <Text style={styles.modalText}>SWEETYME</Text>
-            </TouchableOpacity>
-
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <MaterialIcons name="cancel" size={24} color="black" />
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
       <TouchableOpacity onPress={() => navigation.navigate("RestaurantOrders")}>
         {/* <Entypo name="home" size={24} color="black" /> */}
       </TouchableOpacity>
@@ -60,12 +32,9 @@ const BottomNav = () => {
         <Entypo name="menu" size={24} color="black" />
       </TouchableOpacity> */}
 
-      <TouchableOpacity onPress={() => navigation.navigate("Account")}>
+      <TouchableOpacity onPress={() => navigation.navigate("AllOrders")}>
         <Entypo name="open-book" size={30} color="black" />
       </TouchableOpacity>
-      {/* <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-          <AntDesign name="questioncircle" size={24} color="black" />
-        </TouchableOpacity> */}
     </View>
   );
 };

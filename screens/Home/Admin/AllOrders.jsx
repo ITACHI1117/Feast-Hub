@@ -12,9 +12,9 @@ import {
 import React, { useEffect, useState, useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
-import BottomNav from "./BottomNav";
+// import BottomNav from "./BottomNav";
 import { useNavigation } from "@react-navigation/native";
-import { database } from "../../firebaseConfig";
+import { database } from "../../../firebaseConfig";
 import {
   ref,
   child,
@@ -26,20 +26,24 @@ import {
   onValue,
 } from "firebase/database";
 import { AntDesign } from "@expo/vector-icons";
-import DataContext from "../../context/DataContext";
+import DataContext from "../../../context/DataContext";
 
-const Orders = () => {
+const AllOrders = ({ route }) => {
+  // getting restuarant name from the previous screen
+  const restaurantName = route.params.data;
+
+  const navigation = useNavigation();
   const { colors } = useTheme();
   const [allUsers, setAllUsers] = useState();
   const [LoadError, setLoadError] = useState();
   const { userIdentify, user } = useContext(DataContext);
   const [currentUser, setCurrentUser] = useState();
-  const [restaurant, setRestaurant] = useState("Cafeteria");
+  const [restaurant, setRestaurant] = useState(restaurantName);
 
   // getting user id
   useEffect(() => {
     const dbRef = ref(database);
-    get(child(dbRef, `users/${user.uid}/`))
+    get(child(dbRef, `users/`))
       .then((snapshot) => {
         if (snapshot.exists()) {
           setCurrentUser(snapshot.val());
@@ -290,24 +294,7 @@ const Orders = () => {
           My Oders
         </Text>
       </View>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          padding: 20,
-        }}
-      >
-        <TouchableOpacity onPress={() => handleRestaurant("Elegance")}>
-          <Text style={styles.navText}>Elegance</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleRestaurant("Cafeteria")}>
-          <Text style={styles.navText}>Cafeteria</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleRestaurant("SweeTyme")}>
-          <Text style={styles.navText}>SweeTyme</Text>
-        </TouchableOpacity>
-      </View>
+
       {allUsers != "No data available" ? (
         <FlatList
           style={{
@@ -329,7 +316,7 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default AllOrders;
 
 const styles = StyleSheet.create({
   button: {

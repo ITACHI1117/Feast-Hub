@@ -50,7 +50,7 @@ const AdminLogin = () => {
   async function redirect() {
     await signed;
 
-    navigation.replace("RestaurantOrders", { data: selectedValue });
+    navigation.push("RestaurantOrders", { data: selectedValue });
   }
 
   signed ? redirect() : "";
@@ -193,7 +193,7 @@ const AdminLogin = () => {
                 </TouchableOpacity>
               </View>
 
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={{ paddingTop: 20 }}
                 onPress={() => navigation.navigate("SignIn")}
               >
@@ -203,7 +203,7 @@ const AdminLogin = () => {
                   Don’t have an account?
                   <Text style={{ color: "#F33F3F" }}> Sign Up</Text>
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <Text style={{ color: "red", fontSize: 15 }}>{loginError}</Text>
               {LoginLoading ? (
                 <ActivityIndicator size="large" color="#F33F3F" />

@@ -21,6 +21,7 @@ import Orders from "./screens/Home/Orders";
 import Account from "./screens/Home/Account";
 import AdminLogin from "./screens/Registration/AdminLogIn";
 import RestaurantOrders from "./screens/Home/Admin/RestaurantOrders";
+import AllOrders from "./screens/Home/Admin/AllOrders";
 
 // import CreateAccount from "./screens/Registration/CreateAccount";
 // import ResetPassword from "./screens/Registration/ResetPassword";
@@ -174,6 +175,11 @@ const Navigator = () => {
           <Stack.Screen
             name="RestaurantOrders"
             component={RestaurantOrders}
+            options={{ title: null, headerShown: false, gestureEnabled: false }}
+          />
+          <Stack.Screen
+            name="AllOrders"
+            component={AllOrders}
             options={{ title: null, headerShown: false }}
           />
           {/* <Stack.Screen

@@ -40,7 +40,7 @@ const SelectDelivery = ({ route }) => {
   const [transactionId, setTransactionId] = useState(null);
 
   const { data } = route.params;
-  //   console.log(data[0].restaurant);
+  console.log(data[1]);
 
   const UpdatesOders = () => {
     set(
@@ -55,7 +55,9 @@ const SelectDelivery = ({ route }) => {
         phone: data[0].user[6],
         matric: data[0].user[3],
         food: data[0].name,
+        foodImage: data[0].foodImage,
         price: data[0].price,
+        address: data[1],
         quantity: `${data[0].quantity} Quantity`,
         egg: `${data[0].topins[0]} Egg`,
         meat: `${data[0].topins[1]} Meat`,
@@ -68,7 +70,7 @@ const SelectDelivery = ({ route }) => {
         // setting userIdentify to userId so i can pass the same user id
         // to other functions that may need it
         setUploaded(true);
-        navigation.replace("Orders");
+        navigation.navigate("Orders");
       })
       .catch((error) => {
         console.log(error);

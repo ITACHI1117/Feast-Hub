@@ -119,7 +119,7 @@ const PersonalInfo = ({ navigation }) => {
       .then(() => {
         setUpdated(true);
         function redirect() {
-          navigation.replace("Congrats");
+          navigation.push("Congrats");
         }
 
         redirect();
@@ -195,7 +195,7 @@ const PersonalInfo = ({ navigation }) => {
                     <TextInput
                       style={[styles.textInput, { color: "black" }]}
                       placeholderTextColor={colors.placeholder}
-                      placeholder="Your Enail"
+                      placeholder="Your Last Name"
                       onChangeText={handleLastNameChange}
                     />
                   </View>

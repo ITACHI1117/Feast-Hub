@@ -130,6 +130,7 @@ const OrderScreen = ({ route }) => {
       plantainQuantity2,
     ],
     price: price,
+    foodImage: itemImage,
     // Other data
   };
 

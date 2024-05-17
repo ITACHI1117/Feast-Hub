@@ -38,16 +38,16 @@ const CreateAccount = ({ navigation }) => {
   // check if user is logged in already
   async function redirect() {
     await signed;
-    navigation.replace("PersonalInfo");
+    navigation.push("PersonalInfo");
   }
 
   signed ? redirect() : "";
 
   // check if user is has signned up
-  async function redirect() {
-    await user;
-    navigation.replace("PersonalInfo");
-  }
+  // async function redirect() {
+  //   await user;
+  //   navigation.push("PersonalInfo");
+  // }
 
   user ? redirect() : "";
 
@@ -169,7 +169,7 @@ const CreateAccount = ({ navigation }) => {
                   <TextInput
                     style={[styles.textInput, { color: "black" }]}
                     placeholderTextColor={colors.placeholder}
-                    placeholder="Your Enail"
+                    placeholder="Your Email"
                     onChangeText={handleEmailChange}
                   />
                 </View>
