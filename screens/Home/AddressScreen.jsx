@@ -109,7 +109,7 @@ const AddressScreen = ({ route }) => {
                       style={[styles.textInput, { color: "black" }]}
                       placeholderTextColor={colors.placeholder}
                       placeholder="Your Name"
-                      value={data.user[2]}
+                      value={data.user[3]}
 
                       //   onChangeText={handleLastNameChange}
                     />
@@ -134,7 +134,7 @@ const AddressScreen = ({ route }) => {
                       style={[styles.textInput, { color: "black" }]}
                       placeholderTextColor={colors.placeholder}
                       placeholder="Your LastName"
-                      value={data.user[4]}
+                      value={data.user[5]}
                       //   onChangeText={handleLastNameChange}
                     />
                   </View>
@@ -160,7 +160,7 @@ const AddressScreen = ({ route }) => {
                       placeholder="Your Matric Number"
                       //   onChangeText={handleMatricChange}
                       keyboardType="numeric"
-                      value={data.user[3]}
+                      value={data.user[4]}
                     />
                   </View>
                   <View
@@ -185,7 +185,7 @@ const AddressScreen = ({ route }) => {
                       placeholder="Your Phone Number"
                       //   onChangeText={handlePhoneNumberChange}
                       keyboardType="numeric"
-                      value={data.user[6]}
+                      value={data.user[7]}
                     />
                   </View>
                   <View

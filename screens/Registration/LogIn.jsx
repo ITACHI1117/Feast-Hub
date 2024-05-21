@@ -53,7 +53,7 @@ const LogIn = () => {
   signed ? redirect() : "";
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: colors.background }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
           enabled={true}

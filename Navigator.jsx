@@ -46,6 +46,8 @@ const Navigator = () => {
     );
   }, []);
 
+  console.log(colorScheme);
+
   const dark = {
     dark: true,
     colors: {

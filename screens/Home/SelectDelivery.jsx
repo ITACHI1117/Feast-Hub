@@ -41,19 +41,37 @@ const SelectDelivery = ({ route }) => {
   const [selectedOption, setSelectedOption] = useState("Option 1");
 
   const { data } = route.params;
+  // console.log(data[0].user[3]);
   // console.log(data[1]);
 
   const UpdatesOders = () => {
+    // Generating random text reference
+    const generateTransactionReference = (length) => {
+      let result = "";
+      const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      const charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return result;
+    };
     set(
       reference(
         database,
-        `Orders/${data[0].restaurant}/${data[0].user[1]}/${transactionId}`
+        `Orders/${data[0].restaurant}/${data[0].user[2]}/${
+          transactionId == null
+            ? generateTransactionReference(20)
+            : transactionId
+        }`
       ),
       {
-        id: data[0].user[1],
-        name: `${data[0].user[2]} ${data[0].user[4]}`,
+        id: data[0].user[2],
+        name: `${data[0].user[5]} ${data[0].user[3]}`,
         email: data[0].user[0],
-        phone: data[0].user[6],
+        phone: data[0].user[7],
         matric: data[0].user[3],
         food: data[0].name,
         foodImage: data[0].foodImage,
@@ -116,7 +134,7 @@ const SelectDelivery = ({ route }) => {
         customer: {
           email: data[0].user[0],
           phonenumber: data[0].user[6],
-          name: `${data[0].user[2]} ${data[0].user[4]}`,
+          name: `${data[0].user[3]} ${data[0].user[5]}`,
         },
         amount: total,
         currency: "NGN",
@@ -307,7 +325,7 @@ const SelectDelivery = ({ route }) => {
                         marginBottom: 10,
                       }}
                     >
-                      {data[0].user[2]} {data[0].user[4]}
+                      {data[0].user[3]} {data[0].user[5]}
                     </Text>
                     <Text style={{ fontSize: 15, fontWeight: 500 }}>
                       {data[1]}
